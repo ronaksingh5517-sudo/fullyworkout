@@ -9,7 +9,7 @@ export default function ClientLoaderWrapper({ children }) {
     // Thoda sa delay taaki loader smooth dikhe jab tak app fully mount ho
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1200);
+    }, 0);
 
     return () => clearTimeout(timer);
   }, []);

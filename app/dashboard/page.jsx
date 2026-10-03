@@ -119,9 +119,9 @@ export default function DashboardPage() {
           <div ref={carouselRef} className="card-3d" style={{ transform: `perspective(1000px) rotateY(${rotY}deg)` }}>
             <Link href="/food-scanner" className="card-item" style={{ backgroundImage: "url(/food-scan.png)", backgroundSize: "cover", backgroundPosition: "center", display: "block" }} title="Food Scanner"></Link>
             <Link href="/body-scan" className="card-item" style={{ backgroundImage: "url(/body-scan.png)", backgroundSize: "cover", backgroundPosition: "center", display: "block" }} title="Posture Scan"></Link>
-            <Link href="/ai-coach" className="card-item" style={{ backgroundImage: "url(/coach1.png)", backgroundSize: "cover", backgroundPosition: "center", display: "block" }} title="AI Coach"></Link>
-            <Link href="/workout" className="card-item" style={{ backgroundImage: "url(/body1.png)", backgroundSize: "cover", backgroundPosition: "center", display: "block" }} title="Workout Split"></Link>
-            <Link href="/analytics" className="card-item" style={{ backgroundImage: "url(/gym-transformation.png)", backgroundSize: "cover", backgroundPosition: "center", display: "block" }} title="Analytics"></Link>
+            <Link href="/ai-coach" className="card-item" style={{ backgroundImage: "url(/coach.png)", backgroundSize: "cover", backgroundPosition: "center", display: "block" }} title="AI Coach"></Link>
+            <Link href="/workout" className="card-item" style={{ backgroundImage: "url(/workout2.png)", backgroundSize: "cover", backgroundPosition: "center", display: "block" }} title="Workout Split"></Link>
+            <Link href="/analytics" className="card-item" style={{ backgroundImage: "url(/1.png)", backgroundSize: "cover", backgroundPosition: "center", display: "block" }} title="Analytics"></Link>
           </div>
         </div>
 

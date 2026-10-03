@@ -179,10 +179,20 @@ export default function AICoachPage() {
           setRemainingChats(0);
         }
 
+        const currentPlan = String(
+          data?.plan || userPlan || "free"
+        ).toLowerCase();
+
         alert(
           data.error ||
             "Today's AI Coach limit is reached. Your chats will reset at 12:00 AM IST."
         );
+
+        // Only Free users are sent to Pricing after their daily limit.
+        if (currentPlan === "free" || currentPlan.includes("free")) {
+          window.location.href = "/pricing";
+        }
+
         return;
       }
 
@@ -973,6 +983,62 @@ export default function AICoachPage() {
         .pb-ai-input-btn:hover {
           transform: translateY(-1px);
         }
+/* 📱 SEND BUTTON — FULL RESPONSIVE */
+.pb-ai-input-btn {
+  flex-shrink: 0 !important;
+}
+
+/* 📱 Mobile */
+@media (max-width: 600px) {
+  .pb-ai-input-btn {
+    width: clamp(38px, 11vw, 42px) !important;
+    min-width: clamp(38px, 11vw, 42px) !important;
+    height: clamp(38px, 11vw, 42px) !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    flex-shrink: 0 !important;
+    right: clamp(3px, 1.5vw, 6px) !important;
+
+    font-size: clamp(15px, 4vw, 16px) !important;
+  }
+
+  .pb-ai-input-btn .pb-ai-sparkle {
+    font-size: clamp(15px, 4vw, 16px) !important;
+  }
+}
+
+/* 📱 Very small phones — 320px, 340px etc. */
+@media (max-width: 360px) {
+  .pb-ai-input-btn {
+    width: 38px !important;
+    min-width: 38px !important;
+    height: 38px !important;
+
+    right: 10px !important;
+  }
+
+  .pb-ai-input-btn .pb-ai-sparkle {
+    font-size: 15px !important;
+  }
+}
+
+/* 📱 320px exact safety */
+@media (max-width: 330px) {
+  .pb-ai-input-btn {
+    width: 36px !important;
+    min-width: 36px !important;
+    height: 36px !important;
+
+    right: 2px !important;
+  }
+
+  .pb-ai-input-btn .pb-ai-sparkle {
+    font-size: 14px !important;
+  }
+}
+
       `}</style>
     </main>
   );

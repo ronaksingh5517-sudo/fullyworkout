@@ -23,15 +23,15 @@ export const authOptions = {
             name: user.name,
             email: user.email,
             image: user.image,
-            onboardingCompleted: false, // Pehli baar false rahega
             isPro: false,
             createdAt: new Date(),
           });
         }
         return true;
       } catch (error) {
-        console.error("SignIn error:", error);
-        return true;
+        // 🔥 Yahan terminal mein exact error print hoga
+        console.error("DETAILED SIGNIN ERROR:", error.message, error.stack);
+        return true; // Temporary: Error hone par bhi login allow karne ke liye true return kar rahe hain taaki pata chale
       }
     },
     async session({ session }) {
@@ -42,18 +42,13 @@ export const authOptions = {
         
         if (dbUser) {
           session.user.id = dbUser._id.toString();
-          session.user.onboardingCompleted = dbUser.onboardingCompleted || false;
           session.user.isPro = dbUser.isPro || false;
         }
       } catch (error) {
-        console.error("Session error:", error);
+        console.error("Session callback error:", error);
       }
       return session;
     },
-    async redirect({ url, baseUrl }) {
-      // Yahan hum default callback URL handle kar sakte hain
-      return baseUrl + "/dashboard";
-    }
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

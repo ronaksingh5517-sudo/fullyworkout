@@ -15,7 +15,7 @@ export default function FloatingCoachButton() {
         .floating-btn-wrap {
           position: fixed;
           bottom: 84px; /* Bottom nav ke upar clean position */
-          right: 18px;
+          right: 20px;
           z-index: 99;
         }
 
@@ -61,8 +61,11 @@ export default function FloatingCoachButton() {
 
       <div className="floating-btn-wrap">
         <Link href="/ai-coach" className="coach-fab">
-          <span style={{ fontSize: "18px" }}>🤖</span>
-          <span className="fab-text">Ask AI Coach</span>
+
+          <span className="fab-text ">
+
+
+           🕵️‍♀️ Ask...</span>
           <span className="pulse-dot"></span>
         </Link>
       </div>

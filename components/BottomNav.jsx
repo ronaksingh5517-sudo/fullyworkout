@@ -26,7 +26,7 @@ export default function BottomNav() {
       ),
     },
     {
-      label: "AI Coach",
+      label: "Coach",
       href: "/ai-coach",
       isMiddle: true,
       icon: (

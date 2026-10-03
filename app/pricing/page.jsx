@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import PricingSection from "@/components/PricingSection";
 
+
 export default function PricingPage() {
   const [isMounted, setIsMounted] = useState(false);
 

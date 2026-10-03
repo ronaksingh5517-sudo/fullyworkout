@@ -314,11 +314,23 @@ export default function BodyScanPage() {
               remaining: 0,
               plan: String(data?.plan || prev.plan || "free").toLowerCase(),
             }));
+            const currentPlan = String(
+              data?.plan ||
+              data?.planDetails?.name ||
+              bodyUsage.plan ||
+              "free"
+            ).toLowerCase();
+
             alert(
               `Daily Body Scan limit reached.\n\nUsed: ${
                 data.used ?? bodyUsage.used
               }/${data.limit ?? bodyUsage.limit}\nRemaining: 0`
             );
+
+            // Only Free users are sent to Pricing after their daily limit.
+            if (currentPlan === "free" || currentPlan.includes("free")) {
+              window.location.href = "/pricing";
+            }
           } else {
             alert(data.error || "Failed to analyze physique image.");
           }
@@ -349,7 +361,7 @@ export default function BodyScanPage() {
           <Link href="/dashboard" style={{ padding: "8px 16px", textDecoration: "none", background: "#1a1a1a", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "10px", color: "#38bdf8", fontWeight: "bold" }}>
             ← Back
           </Link>
-          <h1 style={{ fontSize: "18px", fontWeight: 800, margin: 0, letterSpacing: "0.5px" }}>AI Biometric & Physique Scan 🧬</h1>
+          <h1 style={{ fontSize: "18px", fontWeight: 800, margin: 0, letterSpacing: "0.5px" }}> Physique Scan 🧬</h1>
           <div style={{ width: "40px" }}></div>
         </div>
 
@@ -539,7 +551,7 @@ export default function BodyScanPage() {
           >
             <div className="dots_border"></div>
             <span className="text_button">
-              {loading ? "Analyzing Physique..." : "Run AI Diagnostic Scan"}
+              {loading ? "Analyzing Physique..." : "body Scan with AI"}
             </span>
           </button>
         </div>

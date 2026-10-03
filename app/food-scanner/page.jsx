@@ -678,10 +678,22 @@ export default function FoodScannerPage() {
               ).toLowerCase(),
             }));
 
+            const currentPlan = String(
+              data?.plan ||
+              data?.planDetails?.name ||
+              foodUsage.plan ||
+              "free"
+            ).toLowerCase();
+
             alert(
               `Daily Food Scan limit reached.\n\nUsed: ${data.used ?? 0
               }/${data.limit ?? 0}\nRemaining: 0`
             );
+
+            // Only Free users are sent to Pricing after their daily limit.
+            if (currentPlan === "free" || currentPlan.includes("free")) {
+              window.location.href = "/pricing";
+            }
           }
 
           // --------------------------------------------------
@@ -794,13 +806,13 @@ export default function FoodScannerPage() {
 
           <h1
             style={{
-              fontSize: "18px",
+              fontSize: "21px",
               fontWeight: 800,
               margin: 0,
-              letterSpacing: "0.5px",
+              letterSpacing: "1.5px",
             }}
           >
-            Vision Food Scanner 📸
+             Scan  Food 
           </h1>
 
           <div

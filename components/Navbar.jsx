@@ -43,7 +43,7 @@ export default function Navbar() {
           z-index: 100;
           background: transparent;
           padding: 16px 0;
-          backdrop-filter: blur(4px);
+         
         }
         .custom-nav-container {
           max-width: 1240px;

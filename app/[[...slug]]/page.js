@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+
 import Navbar from "@/components/Navbar";
 import HeroVideo from "@/components/HeroVideo";
 import BodyScanSection from "@/components/BodyScanSection";
@@ -28,28 +28,14 @@ import SettingsView from "@/components/SettingsView";
 
 export default function DynamicPage() {
   const rawPathname = usePathname() || "/";
-
-  const cleanPath = rawPathname
-    .toLowerCase()
-    .replace(/\/$/, "")
-    .replace(".jsx", "")
-    .replace(".js", "") || "/";
-
   const router = useRouter();
-  const [isOnboarded, setIsOnboarded] = useState(true);
-  const [checkingAuth, setCheckingAuth] = useState(true);
 
-  useEffect(() => {
-    // Check karo kya user ne onboarding poori ki hai ya nahi
-    const savedUser = localStorage.getItem("aurafit_user");
-    if (!savedUser && cleanPath !== "/onboarding" && cleanPath !== "/login" && cleanPath !== "/signup" && cleanPath !== "/") {
-      setIsOnboarded(false);
-      router.push("/onboarding"); // Agar data nahi hai toh forced onboarding par bhejo
-    } else {
-      setIsOnboarded(true);
-    }
-    setCheckingAuth(false);
-  }, [cleanPath, router]);
+  const cleanPath =
+    rawPathname
+      .toLowerCase()
+      .replace(/\/$/, "")
+      .replace(".jsx", "")
+      .replace(".js", "") || "/";
 
   const handlePageClick = (e) => {
     const link = e.target.closest("a");
@@ -58,13 +44,22 @@ export default function DynamicPage() {
     const href = link.getAttribute("href");
     if (!href) return;
 
+    // Smooth scroll for # links
     if (href.startsWith("#")) {
       e.preventDefault();
+
       const el = document.querySelector(href);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
+
+      if (el) {
+        el.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+
       return;
     }
 
+    // Internal navigation
     if (href.startsWith("/") && !href.startsWith("//")) {
       e.preventDefault();
       router.push(href);
@@ -72,6 +67,7 @@ export default function DynamicPage() {
   };
 
   const renderContent = () => {
+    // HOME
     if (cleanPath === "/") {
       return (
         <>
@@ -87,52 +83,103 @@ export default function DynamicPage() {
       );
     }
 
-    if (cleanPath === "/onboarding" || cleanPath === "/onboardingwizard") {
+    // ONBOARDING
+    if (
+      cleanPath === "/onboarding" ||
+      cleanPath === "/onboardingwizard"
+    ) {
       return <OnboardingWizard />;
     }
 
-    if (cleanPath === "/dashboard" || cleanPath === "/dashboardview") {
+    // DASHBOARD
+    if (
+      cleanPath === "/dashboard" ||
+      cleanPath === "/dashboardview"
+    ) {
       return <DashboardView />;
     }
 
-    if (cleanPath === "/food-scanner" || cleanPath === "/foodscannerview") {
+    // FOOD SCANNER
+    if (
+      cleanPath === "/food-scanner" ||
+      cleanPath === "/foodscannerview"
+    ) {
       return <FoodScannerView />;
     }
-        if (cleanPath === "/workout" || cleanPath === "/workoutview") {
+
+    // WORKOUT
+    if (
+      cleanPath === "/workout" ||
+      cleanPath === "/workoutview"
+    ) {
       return <WorkoutView />;
     }
 
-    if (cleanPath === "/progress" || cleanPath === "/progressview") {
+    // PROGRESS
+    if (
+      cleanPath === "/progress" ||
+      cleanPath === "/progressview"
+    ) {
       return <ProgressView />;
     }
 
-    if (cleanPath === "/profile" || cleanPath === "/profileview") {
+    // PROFILE
+    if (
+      cleanPath === "/profile" ||
+      cleanPath === "/profileview"
+    ) {
       return <ProfileView />;
     }
 
+    // LOGIN
     if (cleanPath === "/login") {
       return <AuthView defaultMode="login" />;
     }
-    if (cleanPath === "/signup" || cleanPath === "/authview") {
+
+    // SIGNUP
+    if (
+      cleanPath === "/signup" ||
+      cleanPath === "/authview"
+    ) {
       return <AuthView defaultMode="signup" />;
     }
 
-    if (cleanPath === "/ai-coach" || cleanPath === "/aicoach" || cleanPath === "/aicoachview") {
+    // AI COACH
+    if (
+      cleanPath === "/ai-coach" ||
+      cleanPath === "/aicoach" ||
+      cleanPath === "/aicoachview"
+    ) {
       return <AICoachView />;
     }
 
-    if (cleanPath === "/body-scan" || cleanPath === "/bodyscan" || cleanPath === "/bodyscanview") {
+    // BODY SCAN
+    if (
+      cleanPath === "/body-scan" ||
+      cleanPath === "/bodyscan" ||
+      cleanPath === "/bodyscanview"
+    ) {
       return <BodyScanView />;
     }
 
-    if (cleanPath === "/checkout" || cleanPath === "/pricing" || cleanPath === "/checkoutview") {
+    // CHECKOUT / PRICING
+    if (
+      cleanPath === "/checkout" ||
+      cleanPath === "/pricing" ||
+      cleanPath === "/checkoutview"
+    ) {
       return <CheckoutView />;
     }
 
-    if (cleanPath === "/settings" || cleanPath === "/settingsview") {
+    // SETTINGS
+    if (
+      cleanPath === "/settings" ||
+      cleanPath === "/settingsview"
+    ) {
       return <SettingsView />;
     }
 
+    // UNKNOWN ROUTE
     return (
       <div
         style={{
@@ -158,7 +205,15 @@ export default function DynamicPage() {
             boxShadow: "0 20px 40px rgba(0, 0, 0, 0.7)",
           }}
         >
-          <div style={{ fontSize: "56px", marginBottom: "16px" }}>🚧</div>
+          <div
+            style={{
+              fontSize: "56px",
+              marginBottom: "16px",
+            }}
+          >
+            🚧
+          </div>
+
           <span
             style={{
               background: "rgba(255, 75, 43, 0.15)",
@@ -173,19 +228,47 @@ export default function DynamicPage() {
           >
             Under Construction
           </span>
-          <h2 style={{ fontSize: "24px", fontWeight: "800", marginTop: "16px", marginBottom: "8px" }}>
+
+          <h2
+            style={{
+              fontSize: "24px",
+              fontWeight: "800",
+              marginTop: "16px",
+              marginBottom: "8px",
+            }}
+          >
             Ye Page Abhi Nahi Bana Hai
           </h2>
-          <p style={{ color: "#94a3b8", fontSize: "14px", lineHeight: "1.6", marginBottom: "24px" }}>
-            Route: <code style={{ color: "#ffe600", background: "rgba(255,255,255,0.06)", padding: "2px 8px", borderRadius: "6px" }}>{rawPathname}</code>
+
+          <p
+            style={{
+              color: "#94a3b8",
+              fontSize: "14px",
+              lineHeight: "1.6",
+              marginBottom: "24px",
+            }}
+          >
+            Route:{" "}
+            <code
+              style={{
+                color: "#ffe600",
+                background: "rgba(255,255,255,0.06)",
+                padding: "2px 8px",
+                borderRadius: "6px",
+              }}
+            >
+              {rawPathname}
+            </code>
           </p>
+
           <Link
             href="/"
             style={{
               display: "inline-block",
               padding: "10px 24px",
               borderRadius: "8px",
-              background: "linear-gradient(135deg, #ff416c, #ff4b2b)",
+              background:
+                "linear-gradient(135deg, #ff416c, #ff4b2b)",
               color: "#ffffff",
               textDecoration: "none",
               fontWeight: "600",
@@ -199,17 +282,20 @@ export default function DynamicPage() {
     );
   };
 
-  if (checkingAuth) return null;
-
   return (
-    <main onClick={handlePageClick} className="main-wrapper">
+    <main
+      onClick={handlePageClick}
+      className="main-wrapper"
+    >
       <ToastNotification />
+
       {renderContent()}
+
       <FloatingCoachButton />
 
-   <style jsx global>{`
-        /* CLEAN GLOBAL RESET: Scrollbar aur gap ki problem hamesha ke liye khatam */
-        html, body {
+      <style jsx global>{`
+        html,
+        body {
           margin: 0 !important;
           padding: 0 !important;
           width: 100% !important;
@@ -217,7 +303,10 @@ export default function DynamicPage() {
           background-color: #080a0e !important;
           overflow-x: hidden !important;
         }
-        *, *:before, *:after {
+
+        *,
+        *:before,
+        *:after {
           box-sizing: border-box !important;
         }
       `}</style>

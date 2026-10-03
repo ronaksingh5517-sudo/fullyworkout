@@ -8,17 +8,95 @@ export default function CameraCapture({ onCapture }) {
 
   const startCamera = async () => {
     try {
-      setIsStreaming(true);
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment" },
-        audio: false,
-      });
+      // Check browser support first.
+      if (
+        typeof navigator === "undefined" ||
+        !navigator.mediaDevices ||
+        !navigator.mediaDevices.getUserMedia
+      ) {
+        alert(
+          "Camera is not supported by this browser. Please use Chrome, Safari, or Edge."
+        );
+        return;
+      }
+
+      // Start only after permission/request succeeds.
+      // First try the rear/environment camera.
+      let stream;
+
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: { ideal: "environment" } },
+          audio: false,
+        });
+      } catch (firstError) {
+        // Some devices/browsers do not accept the facingMode constraint.
+        // Fall back to any available camera.
+        if (
+          firstError?.name === "OverconstrainedError" ||
+          firstError?.name === "NotFoundError"
+        ) {
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: false,
+          });
+        } else {
+          throw firstError;
+        }
+      }
+
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+
+        try {
+          await videoRef.current.play();
+        } catch (playError) {
+          console.warn("Video autoplay warning:", playError);
+        }
       }
+
+      setIsStreaming(true);
     } catch (err) {
       console.error("Camera access error:", err);
-      alert("Camera permission denied or not supported.");
+
+      let message =
+        "Unable to open the camera. Please check your browser camera permission.";
+
+      switch (err?.name) {
+        case "NotAllowedError":
+        case "PermissionDeniedError":
+          message =
+            "Camera permission is blocked. Please allow camera access for this website and try again.";
+          break;
+
+        case "NotFoundError":
+        case "DevicesNotFoundError":
+          message =
+            "No camera was found on this device.";
+          break;
+
+        case "NotReadableError":
+        case "TrackStartError":
+          message =
+            "The camera is currently being used by another app or browser tab. Close it and try again.";
+          break;
+
+        case "SecurityError":
+          message =
+            "The browser blocked camera access for security reasons. Open the site on HTTPS and try again.";
+          break;
+
+        case "AbortError":
+          message =
+            "Camera startup was interrupted. Please try again.";
+          break;
+
+        default:
+          message =
+            `Camera could not be opened (${err?.name || "Unknown error"}). Please try again.`;
+      }
+
+      alert(message);
       setIsStreaming(false);
     }
   };
