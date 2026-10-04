@@ -110,7 +110,7 @@ function CircularLoaderCard({ title, current, max, unit, color = "#ff5232", cust
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
       <span style={{ fontSize: "13.5px", fontWeight: 800, color: "#cbd5e1", textAlign: "center", textTransform: "uppercase", letterSpacing: "0.5px" }}>{title}</span>
-      
+
       <div style={{ position: "relative", width: "130px", height: "130px", display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.45)", borderRadius: "50%", border: "1px solid rgba(255,255,255,0.08)" }}>
         <svg width="130" height="130" viewBox="0 0 130 130" style={{ position: "absolute", top: 0, left: 0, transform: "rotate(-90deg)" }}>
           <circle cx="65" cy="65" r={radius} stroke="rgba(255, 255, 255, 0.08)" strokeWidth="9" fill="transparent" />
@@ -141,7 +141,7 @@ function LargeCircularLoaderCard({ title, current, max, unit, color = "#ff5232" 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", gridColumn: "span 2" }}>
       <span style={{ fontSize: "14.5px", fontWeight: 800, color: "#cbd5e1", textAlign: "center", textTransform: "uppercase", letterSpacing: "0.5px" }}>{title}</span>
-      
+
       <div style={{ position: "relative", width: "160px", height: "160px", display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.45)", borderRadius: "50%", border: "1px solid rgba(255,255,255,0.1)" }}>
         <svg width="160" height="160" viewBox="0 0 160 160" style={{ position: "absolute", top: 0, left: 0, transform: "rotate(-90deg)" }}>
           <circle cx="80" cy="80" r={radius} stroke="rgba(255, 255, 255, 0.08)" strokeWidth="11" fill="transparent" />
@@ -178,42 +178,69 @@ export default function BodyScanPage() {
 
   useEffect(() => {
     setIsMounted(true);
-    if (session?.user?.isPro) {
-      setIsPro(true);
-    } else {
-      const proStatus = localStorage.getItem("aurafit_is_pro") === "true";
-      setIsPro(proStatus);
-    }
-  }, [session]);
+  }, []);
 
   useEffect(() => {
     if (!session?.user?.email) return;
 
     const loadEntitlements = async () => {
       try {
-        const response = await fetch("/api/user/entitlements", {
-          method: "GET",
-          cache: "no-store",
-        });
+        const response = await fetch(
+          "/api/user/entitlements",
+          {
+            method: "GET",
+            cache: "no-store",
+          }
+        );
 
         const data = await response.json();
 
         if (response.ok && data?.success) {
           const plan = String(
-            data?.plan || data?.planDetails?.name || "free"
+            data?.plan ||
+            data?.planDetails?.name ||
+            "free"
           ).toLowerCase();
 
           setBodyUsage({
             plan,
-            used: data?.usage?.bodyScans ?? 0,
-            limit: data?.limits?.bodyScans ?? 1,
-            remaining: data?.remaining?.bodyScans ?? 0,
+
+            used:
+              data?.usage?.bodyScans ?? 0,
+
+            limit:
+              data?.limits?.bodyScans ?? 1,
+
+            remaining:
+              data?.remaining?.bodyScans ?? 0,
           });
 
+          // ONLY CENTRAL ENTITLEMENT
           setIsPro(plan !== "free");
+        } else {
+          setBodyUsage({
+            plan: "free",
+            used: 0,
+            limit: 1,
+            remaining: 1,
+          });
+
+          setIsPro(false);
         }
       } catch (error) {
-        console.error("Body scan entitlement error:", error);
+        console.error(
+          "Body scan entitlement error:",
+          error
+        );
+
+        setBodyUsage({
+          plan: "free",
+          used: 0,
+          limit: 1,
+          remaining: 1,
+        });
+
+        setIsPro(false);
       }
     };
 
@@ -276,7 +303,7 @@ export default function BodyScanPage() {
     try {
       const reader = new FileReader();
       reader.readAsDataURL(imageFile);
-      
+
       reader.onloadend = async () => {
         try {
           const rawBase64 = reader.result;
@@ -285,9 +312,9 @@ export default function BodyScanPage() {
           const res = await fetch("/api/body-scan", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ 
-              userId: session?.user?.email || "guest_user", 
-              image: compressedBase64 
+            body: JSON.stringify({
+              userId: session?.user?.email || "guest_user",
+              image: compressedBase64
             }),
           });
 
@@ -322,8 +349,7 @@ export default function BodyScanPage() {
             ).toLowerCase();
 
             alert(
-              `Daily Body Scan limit reached.\n\nUsed: ${
-                data.used ?? bodyUsage.used
+              `Daily Body Scan limit reached.\n\nUsed: ${data.used ?? bodyUsage.used
               }/${data.limit ?? bodyUsage.limit}\nRemaining: 0`
             );
 
@@ -355,7 +381,7 @@ export default function BodyScanPage() {
   return (
     <div style={{ minHeight: "100vh", background: "#080a0e", color: "#ffffff", padding: "24px 16px 110px 16px", fontFamily: "system-ui, sans-serif", boxSizing: "border-box" }}>
       <div style={{ maxWidth: "540px", margin: "0 auto" }}>
-        
+
         {/* Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
           <Link href="/dashboard" style={{ padding: "8px 16px", textDecoration: "none", background: "#1a1a1a", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "10px", color: "#38bdf8", fontWeight: "bold" }}>
@@ -422,7 +448,7 @@ export default function BodyScanPage() {
         {/* INPUT CARD */}
         <div className="card" style={{ width: "100%", height: "auto", marginBottom: "24px" }}>
           <div className="card2" style={{ width: "100%", height: "100%", padding: "20px", boxSizing: "border-box" }}>
-            
+
             <h3 style={{ margin: "0 0 16px 0", fontSize: "16px", fontWeight: 700, color: "#38bdf8", textAlign: "center" }}>Capture or Upload Physique</h3>
 
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "16px", marginBottom: "20px", alignItems: "center" }}>
@@ -475,7 +501,7 @@ export default function BodyScanPage() {
         {/* RESULTS CARD */}
         {result && !loading && (
           <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-            
+
             {/* 1. BODY POSTURE ANALYSIS */}
             <div className="card fade-in-up">
               <div className="card2" style={{ padding: "20px" }}>
@@ -512,7 +538,7 @@ export default function BodyScanPage() {
             <div className="card">
               <div className="card2" style={{ padding: "20px" }}>
                 <h3 style={{ margin: "0 0 16px 0", fontSize: "17px", color: "#fbbf24", fontWeight: 700 }}>🔒 Advanced Pro Biometrics</h3>
-                
+
                 <div className="lock-container">
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "28px", justifyItems: "center", filter: isPro ? "none" : "blur(6px)", userSelect: isPro ? "auto" : "none" }}>
                     <CircularLoaderCard title="Waist" current={isPro ? result.waist : "██"} max={result.maxWaist || 45} unit=" in" color="#f43f5e" />

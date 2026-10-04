@@ -392,18 +392,7 @@ export default function FoodScannerPage() {
 
   useEffect(() => {
     setIsMounted(true);
-
-    if (session?.user?.isPro) {
-      setIsPro(true);
-    } else {
-      const proStatus =
-        localStorage.getItem(
-          "aurafit_is_pro"
-        ) === "true";
-
-      setIsPro(proStatus);
-    }
-  }, [session]);
+  }, []);
   // --------------------------------------------------
   // LOAD CENTRAL USER ENTITLEMENTS
   // --------------------------------------------------
@@ -424,28 +413,27 @@ export default function FoodScannerPage() {
         const data = await response.json();
 
         if (response.ok && data?.success) {
-          setFoodUsage({
-            plan: String(data?.plan || data?.planDetails?.name || "free").toLowerCase(),
-
-            used:
-              data.usage?.foodScans ?? 0,
-
-            limit:
-              data.limits?.foodScans ?? 1,
-
-            remaining:
-              data.remaining?.foodScans ?? 0,
-          });
-
-          // Central plan is now the source of truth.
-          // No separate feature plan is used.
           const centralPlan = String(
-            data?.plan || data?.planDetails?.name || "free"
+            data?.plan ||
+            data?.planDetails?.name ||
+            "free"
           ).toLowerCase();
 
-          setIsPro(
-            centralPlan !== "free"
-          );
+          setFoodUsage({
+            plan: centralPlan,
+
+            used:
+              data?.usage?.foodScans ?? 0,
+
+            limit:
+              data?.limits?.foodScans ?? 1,
+
+            remaining:
+              data?.remaining?.foodScans ?? 0,
+          });
+
+          // ONLY CENTRAL ENTITLEMENT
+          setIsPro(centralPlan !== "free");
         } else {
           setFoodUsage({
             plan: "free",
@@ -812,7 +800,7 @@ export default function FoodScannerPage() {
               letterSpacing: "1.5px",
             }}
           >
-             Scan  Food 
+            Scan  Food
           </h1>
 
           <div
