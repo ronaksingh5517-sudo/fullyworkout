@@ -1,144 +1,86 @@
 "use client";
 
-import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 
 export default function PricingSection() {
-  const { data: session, update } = useSession();
+  const { data: session } = useSession();
 
   /* ==========================================
-     RAZORPAY SCRIPT
+     DODO CHECKOUT
   ========================================== */
 
-  useEffect(() => {
-    const script = document.createElement("script");
-
-    script.src =
-      "https://checkout.razorpay.com/v1/checkout.js";
-
-    script.async = true;
-
-    document.body.appendChild(script);
-
-    return () => {
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
+  const handlePayment = async (planName) => {
+    try {
+      // FREE PLAN
+      if (planName === "Free") {
+        window.location.href = "/ai-coach";
+        return;
       }
-    };
-  }, []);
 
-  /* ==========================================
-     PAYMENT FUNCTION
-  ========================================== */
+      // LOGIN CHECK
+      if (!session?.user?.email) {
+        alert(
+          "Please login first before purchasing a subscription."
+        );
+        return;
+      }
 
-  const handlePayment = async (planName, amountInUSD) => {
-    const RAZORPAY_KEY =
-      process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID ||
-      "rzp_live_TelPp9rlg1o7RG";
+      // Only these plans can reach Dodo.
+      const allowedPlans = [
+        "Weekly",
+        "Monthly",
+        "Yearly",
+      ];
 
-    if (amountInUSD === 0) {
-      window.location.href = "/ai-coach";
-      return;
-    }
+      if (!allowedPlans.includes(planName)) {
+        alert("Invalid subscription plan.");
+        return;
+      }
 
-    const userEmail = session?.user?.email;
-
-    if (!userEmail) {
-      alert(
-        "Your login session is still loading. Please wait a moment and try again."
-      );
-      return;
-    }
-
-    const amountInINRValue = Math.round(amountInUSD * 98);
-
-    const options = {
-      key: RAZORPAY_KEY,
-      amount: amountInINRValue * 100,
-      currency: "INR",
-      name: "FullyWorkout AI Pro",
-      description: `${planName} Subscription Plan ($${amountInUSD})`,
-
-      handler: async function (response) {
-        try {
-          const upgradeResponse = await fetch("/api/user/upgrade", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: userEmail,
-              plan: planName.toLowerCase(),
-              membership: `${planName} Plan`,
-              paymentId: response.razorpay_payment_id,
-            }),
-          });
-
-          const upgradeData = await upgradeResponse.json();
-
-          if (!upgradeResponse.ok || !upgradeData?.success) {
-            throw new Error(
-              upgradeData?.error ||
-                "Subscription activation failed"
-            );
-          }
-
-          if (update) {
-            await update({
-              isPro: true,
-              plan: planName.toLowerCase(),
-            });
-          }
-
-          localStorage.setItem(
-            "aurafit_is_pro",
-            "true"
-          );
-
-          localStorage.setItem(
-            "aurafit_plan",
-            planName.toLowerCase()
-          );
-
-          alert(
-            `🎉 ${planName} Plan activated successfully!`
-          );
-
-          window.location.href = "/ai-coach";
-        } catch (err) {
-          console.error(
-            "Database upgrade sync error:",
-            err
-          );
-
-          alert(
-            "Payment successful, but your plan could not be activated. Please refresh and try again."
-          );
+      // Create the checkout session on the server.
+      const response = await fetch(
+        "/api/dodo/checkout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            plan: planName.toLowerCase(),
+          }),
         }
-      },
+      );
 
-      prefill: {
-        name:
-          session?.user?.name ||
-          "FullyWorkout User",
-        email: userEmail,
-        contact: "9999999999",
-      },
+      const data = await response.json();
 
-      theme: {
-        color: "#ff5232",
-      },
-    };
+      if (!response.ok || !data?.success) {
+        throw new Error(
+          data?.error ||
+            "Unable to start checkout."
+        );
+      }
 
-    if (window.Razorpay) {
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-    } else {
+      if (!data?.checkoutUrl) {
+        throw new Error(
+          "Dodo checkout URL was not returned."
+        );
+      }
+
+      // Redirect to Dodo's hosted checkout.
+      window.location.href =
+        data.checkoutUrl;
+    } catch (error) {
+      console.error(
+        "Dodo checkout error:",
+        error
+      );
+
       alert(
-        "Razorpay SDK failed to load. Please check your connection."
+        error?.message ||
+          "Unable to start payment. Please try again."
       );
     }
-  };;
+  };
 
   /* ==========================================
      UI
@@ -1162,8 +1104,7 @@ export default function PricingSection() {
               <button
                 onClick={() =>
                   handlePayment(
-                    "Free",
-                    0
+                    "Free"
                   )
                 }
                 className="action"
@@ -1375,8 +1316,7 @@ export default function PricingSection() {
               <button
                 onClick={() =>
                   handlePayment(
-                    "Weekly",
-                    0.001
+                    "Weekly"
                   )
                 }
                 className="action"
@@ -1601,8 +1541,7 @@ export default function PricingSection() {
               <button
                 onClick={() =>
                   handlePayment(
-                    "Monthly",
-                    0.001
+                    "Monthly"
                   )
                 }
                 className="action featured-btn"
@@ -1820,8 +1759,7 @@ export default function PricingSection() {
               <button
                 onClick={() =>
                   handlePayment(
-                    "Yearly",
-                    0.0001
+                    "Yearly"
                   )
                 }
                 className="action"
