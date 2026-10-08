@@ -3,6 +3,24 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
+import {
+  Camera,
+  ScanLine,
+  Bot,
+  TrendingUp,
+  Dumbbell,
+  BarChart3,
+  CreditCard,
+  User,
+  Phone,
+  Mail,
+  MessageCircle,
+  Shield,
+  FileText,
+  RotateCcw,
+  Cookie,
+} from "lucide-react";
+
 export default function Footer() {
   const pathname = usePathname();
   const router = useRouter();
@@ -10,8 +28,14 @@ export default function Footer() {
   const handleAnchorClick = (e, targetId) => {
     if (pathname === "/") {
       e.preventDefault();
+
       const el = document.querySelector(targetId);
-      if (el) el.scrollIntoView({ behavior: "smooth" });
+
+      if (el) {
+        el.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
     } else {
       e.preventDefault();
       router.push("/" + targetId);
@@ -28,16 +52,19 @@ export default function Footer() {
           color: #94a3b8;
           font-size: 14px;
         }
+
         .fullyworkout-footer-container {
           max-width: 1240px;
           margin: 0 auto;
         }
+
         .fullyworkout-footer-grid {
           display: grid;
           grid-template-columns: 1.4fr 1fr 1fr 1fr;
           gap: 40px;
           margin-bottom: 50px;
         }
+
         .brand-logo-wrap {
           display: flex;
           align-items: center;
@@ -45,12 +72,14 @@ export default function Footer() {
           text-decoration: none;
           color: #ffffff;
         }
+
         .brand-logo-img {
           width: 38px;
           height: 38px;
           border-radius: 10px;
           object-fit: contain;
         }
+
         .brand-title {
           font-size: 20px;
           font-weight: 800;
@@ -60,32 +89,23 @@ export default function Footer() {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
+
         .fullyworkout-footer-brand p {
           margin-top: 16px;
           line-height: 1.65;
           color: #94a3b8;
           max-width: 320px;
         }
-        .author-meta-box {
-          margin-top: 14px;
-          background: rgba(56, 189, 248, 0.05);
-          border: 1px solid rgba(56, 189, 248, 0.15);
-          padding: 10px 14px;
-          border-radius: 10px;
-          font-size: 12px;
-          color: #cbd5e1;
-        }
-        .author-meta-box span {
-          color: #38bdf8;
-          font-weight: 700;
-        }
+
         .fullyworkout-footer-col h4 {
           color: #ffffff;
           font-size: 15px;
           font-weight: 700;
-          margin-bottom: 18px;
+          margin: 0 0 18px;
           text-transform: uppercase;
+          letter-spacing: 0.4px;
         }
+
         .fullyworkout-footer-links {
           list-style: none;
           padding: 0;
@@ -94,35 +114,12 @@ export default function Footer() {
           flex-direction: column;
           gap: 12px;
         }
-        .f-link {
-          color: #94a3b8;
-          text-decoration: none;
-          transition: all 0.2s ease;
-          display: inline-block;
+
+        .fullyworkout-footer-links li {
+          margin: 0;
+          padding: 0;
         }
-        .f-link:hover {
-          color: #ff5232;
-          transform: translateX(3px);
-        }
-        .fullyworkout-status-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          background: rgba(34, 197, 94, 0.1);
-          border: 1px solid rgba(34, 197, 94, 0.25);
-          color: #4ade80;
-          font-size: 12px;
-          font-weight: 600;
-          padding: 5px 12px;
-          border-radius: 20px;
-          margin-top: 14px;
-        }
-        .fullyworkout-status-dot {
-          width: 7px;
-          height: 7px;
-          background: #22c55e;
-          border-radius: 50%;
-        }
+
         .fullyworkout-footer-bottom {
           display: flex;
           justify-content: space-between;
@@ -132,106 +129,401 @@ export default function Footer() {
           font-size: 13px;
           color: #64748b;
         }
+
         .fullyworkout-bottom-nav {
           display: flex;
           gap: 20px;
         }
+
         .b-nav-link {
           color: #64748b;
           text-decoration: none;
           transition: color 0.2s ease;
         }
+
         .b-nav-link:hover {
           color: #cbd5e1;
         }
+
         @media (max-width: 900px) {
           .fullyworkout-footer-grid {
             grid-template-columns: 1fr 1fr;
           }
         }
+
         @media (max-width: 580px) {
           .fullyworkout-footer {
             padding: 50px 16px 25px;
           }
+
           .fullyworkout-footer-grid {
             grid-template-columns: 1fr;
+            gap: 34px;
           }
+
+          .fullyworkout-footer-brand p {
+            max-width: 100%;
+          }
+
           .fullyworkout-footer-bottom {
             flex-direction: column;
             gap: 14px;
             text-align: center;
           }
+
+          .fullyworkout-bottom-nav {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px 20px;
+          }
         }
       `}</style>
 
-      <footer className="fullyworkout-footer" role="contentinfo">
+      <footer
+        className="fullyworkout-footer"
+        role="contentinfo"
+        aria-label="FullyWorkout Footer"
+      >
         <div className="fullyworkout-footer-container">
+
           <div className="fullyworkout-footer-grid">
-            
-            {/* Brand Logo, CEO Info & Founder Meta for SEO/GEO */}
+
+            {/* =========================
+                BRAND
+            ========================= */}
+
             <div className="fullyworkout-footer-brand">
-              <Link href="/" className="brand-logo-wrap" aria-label="FullyWorkout Home">
-                <img 
-                  src="/favicon.png" 
-                  alt="FullyWorkout Logo" 
-                  className="brand-logo-img" 
+
+              <Link
+                href="/"
+                className="brand-logo-wrap"
+                aria-label="FullyWorkout Home"
+              >
+                <img
+                  src="/favicon.png"
+                  alt="FullyWorkout Logo"
+                  className="brand-logo-img"
                 />
-                <span className="brand-title">FullyWorkout</span>
+
+                <span className="brand-title">
+                  FullyWorkout
+                </span>
               </Link>
+
               <p>
-                FullyWorkout is your ultimate next-gen AI fitness platform & calorie intelligence engine. Established on 10/1/2026 to revolutionize global training.
+                FullyWorkout is an AI-powered fitness platform for
+                personalized workouts, nutrition tracking, AI food scanning,
+                body analysis, and fitness progress tracking.
               </p>
-              
-             
 
-              <div className="fullyworkout-status-badge">
-                <span className="fullyworkout-status-dot"></span> Fully workout AI Engines Active (v2.6)
-              </div>
             </div>
 
-            {/* AI Features */}
+            {/* =========================
+                AI FEATURES
+            ========================= */}
+
             <div className="fullyworkout-footer-col">
+
               <h4>AI Features</h4>
+
               <ul className="fullyworkout-footer-links">
-                <li><Link href="/food-scanner" className="f-link">📸 Food Scanner</Link></li>
-                <li><Link href="/body-scan" className="f-link">⚡ Body Scan Analysis</Link></li>
-                <li><Link href="/dashboard" className="f-link">📊 Visual Transformation</Link></li>
-                <li><Link href="/ai-coach" className="f-link">🤖 Your Coach </Link></li>
+
+                <li>
+                  <Link
+                    href="/food-scanner"
+                    className="flex items-center gap-4 text-[15px] text-slate-400 transition-all duration-200 hover:translate-x-[3px] hover:text-[#ff5232]"
+                  >
+                    <Camera
+                      className="h-5 w-5 shrink-0"
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <span>AI Food Scanner</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/body-scan"
+                    className="flex items-center gap-4 text-[15px] text-slate-400 transition-all duration-200 hover:translate-x-[3px] hover:text-[#ff5232]"
+                  >
+                    <ScanLine
+                      className="h-5 w-5 shrink-0"
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <span>AI Body Scan</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/ai-coach"
+                    className="flex items-center gap-4 text-[15px] text-slate-400 transition-all duration-200 hover:translate-x-[3px] hover:text-[#ff5232]"
+                  >
+                    <Bot
+                      className="h-5 w-5 shrink-0"
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <span>AI Fitness Coach</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/progress"
+                    className="flex items-center gap-4 text-[15px] text-slate-400 transition-all duration-200 hover:translate-x-[3px] hover:text-[#ff5232]"
+                  >
+                    <TrendingUp
+                      className="h-5 w-5 shrink-0"
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <span>Fitness Progress Tracking</span>
+                  </Link>
+                </li>
+
               </ul>
+
             </div>
 
-            {/* Platform & Author Links */}
+            {/* =========================
+                PLATFORM
+            ========================= */}
+
             <div className="fullyworkout-footer-col">
+
               <h4>Platform</h4>
+
               <ul className="fullyworkout-footer-links">
-                <li><Link href="/dashboard" className="f-link">🏠 User Dashboard</Link></li>
-                <li><Link href="/workout/gym-transformation" className="f-link">🏋️ Daily Workout Player</Link></li>
-                <li><Link href="/author" className="f-link">👨‍💻 About Author </Link></li>
-                <li><Link href="/contact" className="f-link">📞 Contact Us</Link></li>
+
+                <li>
+                  <Link
+                    href="/workout"
+                    className="flex items-center gap-4 text-[15px] text-slate-400 transition-all duration-200 hover:translate-x-[3px] hover:text-[#ff5232]"
+                  >
+                    <Dumbbell
+                      className="h-5 w-5 shrink-0"
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <span>Personalized Workouts</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/progress"
+                    className="flex items-center gap-4 text-[15px] text-slate-400 transition-all duration-200 hover:translate-x-[3px] hover:text-[#ff5232]"
+                  >
+                    <BarChart3
+                      className="h-5 w-5 shrink-0"
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <span>Fitness Progress</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/pricing"
+                    className="flex items-center gap-4 text-[15px] text-slate-400 transition-all duration-200 hover:translate-x-[3px] hover:text-[#ff5232]"
+                  >
+                    <CreditCard
+                      className="h-5 w-5 shrink-0"
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <span>Pricing Plans</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/author"
+                    className="flex items-center gap-4 text-[15px] text-slate-400 transition-all duration-200 hover:translate-x-[3px] hover:text-[#ff5232]"
+                  >
+                    <User
+                      className="h-5 w-5 shrink-0"
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <span>About FullyWorkout</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/contact"
+                    className="flex items-center gap-4 text-[15px] text-slate-400 transition-all duration-200 hover:translate-x-[3px] hover:text-[#ff5232]"
+                  >
+                    <Phone
+                      className="h-5 w-5 shrink-0"
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <span>Contact FullyWorkout</span>
+                  </Link>
+                </li>
+
               </ul>
+
             </div>
 
-            {/* Contact & Support Details */}
+            {/* =========================
+                SUPPORT & LEGAL
+            ========================= */}
+
             <div className="fullyworkout-footer-col">
-              <h4>Support & Direct</h4>
+
+              <h4>Support & Legal</h4>
+
               <ul className="fullyworkout-footer-links">
-                <li><a href="mailto:ronaksingh5517@gmail.com" className="f-link">✉️ ronaksingh5517@gmail.com</a></li>
-                <li><Link href="/contact" className="f-link">💬 Support Form</Link></li>
-                <li><Link href="/#pricing" className="f-link" onClick={(e) => handleAnchorClick(e, "#pricing")}>💳 Pricing Plans</Link></li>
-                <li><Link href="/onboarding" className="f-link">🚀 Start Free (30 Days)</Link></li>
+
+                <li>
+                  <a
+                    href="mailto:ronaksingh5517@gmail.com"
+                    className="flex items-center gap-4 text-[15px] text-slate-400 transition-all duration-200 hover:translate-x-[3px] hover:text-[#ff5232]"
+                  >
+                    <Mail
+                      className="h-5 w-5 shrink-0"
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <span>Email Support</span>
+                  </a>
+                </li>
+
+                <li>
+                  <Link
+                    href="/contact"
+                    className="flex items-center gap-4 text-[15px] text-slate-400 transition-all duration-200 hover:translate-x-[3px] hover:text-[#ff5232]"
+                  >
+                    <MessageCircle
+                      className="h-5 w-5 shrink-0"
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <span>Contact Support</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/privacy"
+                    className="flex items-center gap-4 text-[15px] text-slate-400 transition-all duration-200 hover:translate-x-[3px] hover:text-[#ff5232]"
+                  >
+                    <Shield
+                      className="h-5 w-5 shrink-0"
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <span>Privacy Policy</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/terms"
+                    className="flex items-center gap-4 text-[15px] text-slate-400 transition-all duration-200 hover:translate-x-[3px] hover:text-[#ff5232]"
+                  >
+                    <FileText
+                      className="h-5 w-5 shrink-0"
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <span>Terms of Service</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/refund"
+                    className="flex items-center gap-4 text-[15px] text-slate-400 transition-all duration-200 hover:translate-x-[3px] hover:text-[#ff5232]"
+                  >
+                    <RotateCcw
+                      className="h-5 w-5 shrink-0"
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <span>Refund Policy</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/cookies"
+                    className="flex items-center gap-4 text-[15px] text-slate-400 transition-all duration-200 hover:translate-x-[3px] hover:text-[#ff5232]"
+                  >
+                    <Cookie
+                      className="h-5 w-5 shrink-0"
+                      strokeWidth={1.8}
+                      aria-hidden="true"
+                    />
+
+                    <span>Cookie Policy</span>
+                  </Link>
+                </li>
+
               </ul>
+
             </div>
 
           </div>
+
+          {/* =========================
+              FOOTER BOTTOM
+          ========================= */}
 
           <div className="fullyworkout-footer-bottom">
-            <div>© 2026 FullyWorkout. All rights reserved. CEO: Ronak Singh.</div>
-            <div className="fullyworkout-bottom-nav">
-              <Link href="/author" className="b-nav-link">Author</Link>
-              <Link href="/contact" className="b-nav-link">Contact</Link>
-              <Link href="/dashboard" className="b-nav-link">App Dashboard</Link>
+
+            <div>
+              © 2026 FullyWorkout. All rights reserved.
             </div>
+
+            <div className="fullyworkout-bottom-nav">
+
+              <Link
+                href="/author"
+                className="b-nav-link"
+              >
+                Author
+              </Link>
+
+              <Link
+                href="/contact"
+                className="b-nav-link"
+              >
+                Contact
+              </Link>
+
+              <Link
+                href="/dashboard"
+                className="b-nav-link"
+              >
+                App Dashboard
+              </Link>
+
+            </div>
+
           </div>
+
         </div>
       </footer>
     </>

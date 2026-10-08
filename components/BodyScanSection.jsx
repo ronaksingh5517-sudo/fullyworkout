@@ -234,36 +234,56 @@ export default function BodyScanSection() {
         }
       `}</style>
 
-      <section className="section-hero-2" id="page-2" ref={sectionRef} aria-label="AI Body Scan and Posture Analysis Engine">
+      <section
+        className="section-hero-2"
+        id="page-2"
+        ref={sectionRef}
+        aria-label="FullyWorkout AI Body Scan and Posture Analysis"
+      >
         <div className="section-hero-2-container">
-          
+
           <div className={`hero-2-image-box ${isVisible ? "scrolled-in" : ""}`}>
             <div className="hero-2-glow-bg"></div>
             <div className="hero-2-scan-wrapper">
               <div className="scan-laser-beam"></div>
-              <img src="/scan.png" alt="AI Body Posture and Fat Loss Scan Engine" className="hero-2-scan-img" loading="lazy" />
+              <img
+                src="/scan.png"
+                alt="FullyWorkout AI body scan for posture and body composition analysis"
+                className="hero-2-scan-img"
+                loading="lazy"
+              />
             </div>
           </div>
 
           <div className="hero-2-text-wrap">
             <div className="hero-badge">
               <span className="dot"></span>
-              Advanced AI Body Scanner & Posture Analysis
+              AI Body Scan & Posture Analysis
             </div>
 
             <h2>
-              <span>Scan Body</span><br />
-              <span className="yellow-red-animated-text">and Start a</span><br />
-              <span className="yellow-red-animated-text animated-underline-wrapper">Transformation</span>
+              <span>AI Body Scan for</span><br />
+              <span className="yellow-red-animated-text">
+                Posture & Body Analysis
+              </span>
             </h2>
 
             <p className="hero-desc">
-              Utilize next-gen computer vision and AI body mapping to analyze your posture, track fat loss metrics, and generate instant custom workout routines tailored for your body type.
+              Analyze your body with AI-powered computer vision to understand posture,
+              body composition indicators, symmetry, and areas to improve. Use your
+              analysis to build a more personalized fitness and transformation plan.
             </p>
-
             <div className="hero-2-actions">
-              <Link href="/body-scan" className="btn btn-primary btn-lg" style={{ width: "100%", textAlign: "center", justifyContent: "center" }}>
-                Body Scan Now →
+              <Link
+                href="/body-scan"
+                className="btn btn-primary btn-lg"
+                style={{
+                  width: "100%",
+                  textAlign: "center",
+                  justifyContent: "center",
+                }}
+              >
+                Try AI Body Scan →
               </Link>
             </div>
           </div>

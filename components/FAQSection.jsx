@@ -3,38 +3,46 @@
 import { useState } from "react";
 
 export default function FAQSection() {
-    const [activeIndex, setActiveIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(null);
 
-    const toggleAccordion = (index) => {
-        setActiveIndex(activeIndex === index ? null : index);
-    };
+  const toggleAccordion = (index) => {
+    setActiveIndex(activeIndex === index ? null : index);
+  };
 
-    const faqs = [
-        {
-            question: "How does FullyWorkout's AI Food Scanner work?",
-            answer: "Simply snap a photo of your meal using our Vision AI. It instantly detects the dishes, breaks down individual ingredients, and calculates exact calories, proteins, carbs, and fats to log them automatically into your daily nutrition plan."
-        },
-        {
-            question: "Can I use FullyWorkout on both mobile and desktop?",
-            answer: "Yes! FullyWorkout is fully responsive and optimized for all devices—smartphones, tablets, laptops, and PCs. You can seamlessly switch between tracking your workouts in the gym and analyzing your data on your computer."
-        },
-        {
-            question: "How do the 30-day transformation programs work?",
-            answer: "We offer customized protocols tailored to your goals, whether it's Gym Transformation, Fat Loss, or Weight Gain. Each day features interactive exercise timers, set tracking, large crystal-clear visual GIFs, and built-in rest controls."
-        },
-        {
-            question: "Is there a free version available?",
-            answer: "Yes, you can start completely for free! The Free tier includes a basic 30-day plan, daily food scans, workout logs, and community access so you can kickstart your fitness journey without any risk."
-        },
-        {
-            question: "How do I cancel or change my subscription?",
-            answer: "You can upgrade, downgrade, or cancel your subscription at any time with a single click right from your account settings. There are no hidden fees or complicated cancellation processes."
-        }
-    ];
+ const faqs = [
+    {
+        question: "What is FullyWorkout and how does its AI fitness coach work?",
+        answer:
+            "FullyWorkout is an AI-powered fitness platform that brings personalized workouts, nutrition tracking, food scanning, body analysis, and fitness progress tracking together in one place. Its AI fitness coach uses your goals, fitness level, activity, and progress to provide personalized fitness guidance and help you stay consistent with your routine."
+    },
 
-    return (
-        <>
-            <style jsx>{`
+    {
+        question: "How does FullyWorkout create personalized workouts?",
+        answer:
+            "FullyWorkout can tailor workout recommendations around your fitness goals, experience level, available equipment, training preferences, and progress. Whether your goal is fat loss, muscle gain, or general fitness, the platform helps you follow a more structured workout routine instead of relying on a generic plan."
+    },
+
+    {
+        question: "How does the AI Food Scanner work?",
+        answer:
+            "Take a photo of your meal and FullyWorkout uses AI-powered food recognition to identify foods and provide estimated calories and macronutrients such as protein, carbohydrates, and fats. You can use these estimates to help track your daily nutrition and stay aligned with your fitness goals."
+    },
+
+    {
+        question: "Does FullyWorkout track body and fitness progress?",
+        answer:
+            "Yes. FullyWorkout includes body analysis and fitness progress tracking to help you review changes over time. You can track workout activity, nutrition progress, body and posture observations, and your overall transformation journey. Progress tracking can also help you stay consistent with your fitness goals."
+    },
+
+    {
+        question: "Is FullyWorkout free and can I use it on mobile or desktop?",
+        answer:
+            "Yes. FullyWorkout offers a free option with selected fitness and tracking features, while paid plans can provide additional features and higher usage limits. FullyWorkout is designed to work across smartphones, tablets, laptops, and desktop computers. You can also manage your subscription from your account settings."
+    }
+];
+  return (
+    <>
+      <style jsx>{`
         .faq-section {
           background-color: #080a0e;
           padding: 90px 20px 100px;
@@ -136,36 +144,44 @@ export default function FAQSection() {
         }
       `}</style>
 
-            <section className="faq-section" id="faq">
-                <div className="faq-container">
+     <section
+    className="faq-section"
+    id="faq"
+    aria-label="Frequently Asked Questions About FullyWorkout AI Fitness"
+>
+        <div className="faq-container">
 
-                    <div className="faq-header fade-in">
-                        <span className="faq-label">FAQ</span>
-                        <h2 className="faq-title">Frequently Asked Questions</h2>
-                        <p className="faq-subtitle">
-                            Everything you need to know about FullyWorkout, AI tracking, workouts, and pricing plans.
-                        </p>
-                    </div>
+          <div className="faq-header fade-in">
+            <span className="faq-label">FAQ</span>
+            <h2 className="faq-title">
+              Frequently Asked Questions
+            </h2>
+            <p className="faq-subtitle">
+              Find answers about FullyWorkout, AI fitness coaching, personalized
+              workouts, food scanning, body analysis, nutrition tracking, and fitness
+              progress.
+            </p>
+          </div>
 
-                    <div className="faq-list">
-                        {faqs.map((faq, index) => {
-                            const isActive = activeIndex === index;
-                            return (
-                                <div key={index} className={`faq-item ${isActive ? "active" : ""}`}>
-                                    <button onClick={() => toggleAccordion(index)} className="faq-question">
-                                        {faq.question}
-                                        <span>   ➢   </span>
-                                    </button>
-                                    <div className="faq-answer-wrap">
-                                        <p className="faq-answer">{faq.answer}</p>
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
-
+          <div className="faq-list">
+            {faqs.map((faq, index) => {
+              const isActive = activeIndex === index;
+              return (
+                <div key={index} className={`faq-item ${isActive ? "active" : ""}`}>
+                  <button onClick={() => toggleAccordion(index)} className="faq-question">
+                    {faq.question}
+                    <span>   ➢   </span>
+                  </button>
+                  <div className="faq-answer-wrap">
+                    <p className="faq-answer">{faq.answer}</p>
+                  </div>
                 </div>
-            </section>
-        </>
-    );
+              );
+            })}
+          </div>
+
+        </div>
+      </section>
+    </>
+  );
 }

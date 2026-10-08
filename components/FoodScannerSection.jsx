@@ -206,27 +206,32 @@ export default function FoodScannerSection() {
         }
       `}</style>
 
-      <section className="section-hero-3" id="page-3" ref={sectionRef} aria-label="AI Calorie & Meal Scanner Engine">
+      <section
+        className="section-hero-3"
+        id="page-3"
+        ref={sectionRef}
+        aria-label="FullyWorkout AI Food Scanner for Calories and Nutrition"
+      >
         <div className="section-hero-3-container">
-          
+
           <div className="hero-3-text-wrap">
             <div className="hero-badge">
               <span className="dot"></span>
-              AI Calorie & Meal Scanner
+              AI Food Scanner & Nutrition Tracking
             </div>
 
             <h2>
-              Track your calories<br />
-              with just a <span className="highlight">picture</span>
+              Scan Your Food<br />
+              & Track <span className="highlight">Nutrition</span>
             </h2>
-
             <p className="hero-desc">
-              Utilize advanced AI vision technology to instantly scan your meals, track macros, and calculate exact calories from a single photo. Effortless nutrition logging for your fitness transformation.
+              Take a photo of your meal and let FullyWorkout use AI-powered food
+              recognition to identify foods and estimate calories and macronutrients.
+              Quickly log your nutrition and keep your fitness goals on track.
             </p>
-
             <div className="hero-3-actions">
               <Link href="/food-scanner" className="btn btn-primary btn-lg" style={{ flex: 1, textAlign: "center", justifyContent: "center" }}>
-                Try Food Scanner →
+             Scan Your Meal →
               </Link>
             </div>
           </div>
@@ -238,7 +243,7 @@ export default function FoodScannerSection() {
               <span style={{ fontSize: "24px" }}>🍔</span>
               <div>
                 <div className="pill-stat-val">540 kcal</div>
-                <div className="pill-stat-lbl">AI Confidence: 99%</div>
+                <div className="pill-stat-lbl">Estimated from meal photo</div>
               </div>
             </div>
 
@@ -246,11 +251,16 @@ export default function FoodScannerSection() {
               <span style={{ fontSize: "24px" }}>🥩</span>
               <div>
                 <div className="pill-stat-val">32g Protein</div>
-                <div className="pill-stat-lbl">Target: Balanced</div>
+                <div className="pill-stat-lbl">Example nutrition estimate</div>
               </div>
             </div>
 
-            <img src="/burger.png" alt="AI Calorie and Food Scanner Engine" className="hero-3-img" loading="lazy" />
+            <img
+              src="/burger.png"
+              alt="FullyWorkout AI food scanner for meal and nutrition analysis"
+              className="hero-3-img"
+              loading="lazy"
+            />
           </div>
 
         </div>

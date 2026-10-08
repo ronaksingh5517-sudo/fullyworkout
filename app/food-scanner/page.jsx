@@ -803,6 +803,8 @@ export default function FoodScannerPage() {
             Scan  Food
           </h1>
 
+          
+
           <div
             style={{
               width: "40px",

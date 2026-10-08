@@ -3,8 +3,17 @@ export default function robots() {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/"],
+      disallow: [
+        "/api/",
+        "/login",
+        "/signup",
+        "/dashboard",
+        "/profile",
+        "/settings",
+        "/checkout",
+      ],
     },
-    sitemap: "https://www.fullyworkout.com/sitemap.xml",
+
+    sitemap: "https://fullyworkout.com/sitemap.xml",
   };
 }

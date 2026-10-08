@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-
+import SEOJsonLD from "@/components/SEOJsonLD";
 import Navbar from "@/components/Navbar";
 import HeroVideo from "@/components/HeroVideo";
 import BodyScanSection from "@/components/BodyScanSection";
@@ -287,6 +287,7 @@ export default function DynamicPage() {
       onClick={handlePageClick}
       className="main-wrapper"
     >
+      <SEOJsonLD />
       <ToastNotification />
 
       {renderContent()}

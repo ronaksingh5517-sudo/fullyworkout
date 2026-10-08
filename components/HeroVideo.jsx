@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function HeroVideo() {
-  const [activeUsers, setActiveUsers] = useState(50000);
+  const [activeUsers, setActiveUsers] = useState(52322);
 
   // Load saved count from localStorage on initial page load so it never resets on refresh
   useEffect(() => {
@@ -18,10 +18,10 @@ export default function HeroVideo() {
   useEffect(() => {
     const interval = setInterval(() => {
       const randomStep = Math.floor(Math.random() * 5) + 1; // Random increment between 1 and 5
-      
+
       setActiveUsers((currentVal) => {
         const targetValue = currentVal + randomStep;
-        
+
         // Step through intermediate numbers smoothly
         const stepInterval = setInterval(() => {
           setActiveUsers((prev) => {
@@ -156,21 +156,39 @@ export default function HeroVideo() {
           <div className="fade-in">
             <div className="hero-badge" style={{ marginLeft: "auto", marginRight: "auto" }}>
               <span className="dot"></span>
-               Globally Transformation Platform
+              Globally Transformation Platform
             </div>
-            <h1 style={{ fontSize: "clamp(2.2rem, 5vw, 4rem)", lineHeight: 1.15, marginBottom: "18px" }}>
-              Transform Yourself<br />
-              in <span className="highlight">30 Days</span>
+            <h1
+              style={{
+                fontSize: "clamp(2.2rem, 5vw, 4rem)",
+                lineHeight: 1.15,
+                marginBottom: "18px",
+              }}
+            >
+              AI Fitness Coach for
+              <br />
+              <span className="highlight">
+                Personalized Workouts & Transformation
+              </span>
             </h1>
-            <p className="hero-desc" style={{ maxWidth: "640px", margin: "0 auto 30px auto" }}>
-              Your personal AI coach that adapts to YOU worldwide. Advanced photo food scanner, real-time posture correction, and intelligent daily workouts — all in one seamless ecosystem.
+            <p
+              className="hero-desc"
+              style={{
+                maxWidth: "700px",
+                margin: "0 auto 30px auto",
+              }}
+            >
+              FullyWorkout is an AI-powered fitness platform that creates personalized
+              workout plans, analyzes your body, scans meals, tracks nutrition, and helps
+              you follow a structured 30-day fitness transformation journey.
             </p>
             <div className="hero-actions-group">
               <Link href="/onboarding" className="btn btn-primary btn-lg">
-                Start My 30-Day Journey →
+                Start Your Free Fitness Plan →
               </Link>
+
               <a href="#page-2" className="btn btn-secondary btn-lg">
-                See How it Works
+                 How FullyWorkout Works →
               </a>
             </div>
             <div className="hero-stats-group">

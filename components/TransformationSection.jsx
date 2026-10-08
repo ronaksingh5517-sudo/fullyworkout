@@ -232,38 +232,51 @@ export default function TransformationSection() {
       `}</style>
 
       {/* SEO & GEO Optimized Transformation Analysis Section */}
-      <section className="section-hero-4" id="page-4" ref={sectionRef} aria-label="AI Body Shape & Progress Transformation Analysis">
+      <section className="section-hero-4" id="page-4" ref={sectionRef} aria-label="FullyWorkout AI Fitness Progress and Transformation Tracking">
         <div className="section-hero-4-container">
-          
+
           <div className={`hero-4-image-box ${isVisible ? "scrolled-in" : ""}`}>
             <div className="hero-4-glow-bg"></div>
 
             <div className="hero-4-img-wrapper">
               {/* 🌟 Image ke upar 30 Days (White) & Transformation (Coloring) Text Overlay */}
-              
 
-              <img src="/body1.png" alt="Track Real Visual Body Transformation" className="hero-4-img" loading="lazy" />
+
+              <img
+                src="/body1.png"
+                alt="FullyWorkout fitness progress and visual body transformation tracking"
+                className="hero-4-img"
+                loading="lazy"
+              />
             </div>
           </div>
 
           <div className="hero-4-text-wrap">
             <div className="hero-badge">
               <span className="dot"></span>
-              AI Body Shape & Progress Analysis
+              AI Fitness Progress & Transformation Tracking
             </div>
-
             <h2>
-              Track real visual<br />
-              body <span className="highlight">transformation</span>
+              Track Your Fitness<br />
+              <span className="highlight">Progress & Transformation</span>
             </h2>
-
             <p className="hero-desc">
-              Compare weekly body composition changes side-by-side with computer vision. AI tracks posture, muscle density, and body fat progression without guesswork.
+              Keep your fitness journey organized with visual progress tracking.
+              Compare progress over time, review changes in your body and posture,
+              and use your results to stay consistent with your personalized fitness plan.
             </p>
 
             <div className="hero-4-actions">
-              <Link href="/onboarding" className="btn btn-primary btn-lg" style={{ flex: 1, textAlign: "center", justifyContent: "center" }}>
-                Start Transformation Now →
+              <Link
+                href="/onboarding"
+                className="btn btn-primary btn-lg"
+                style={{
+                  flex: 1,
+                  textAlign: "center",
+                  justifyContent: "center",
+                }}
+              >
+                Start Tracking Your Progress →
               </Link>
             </div>
           </div>
