@@ -48,6 +48,12 @@ export async function POST(req) {
     });
 
     console.log("✅ DODO WEBHOOK:", event.type);
+    console.log("DODO DEBUG:", JSON.stringify({
+      type: event.type,
+      status: event.data?.status,
+      productId: event.data?.product_id,
+      email: event.data?.metadata?.user_email,
+    }, null, 2));
 
     // ==========================================
     // SUBSCRIPTION ACTIVE
