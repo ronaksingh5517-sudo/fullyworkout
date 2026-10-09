@@ -53,7 +53,15 @@ export async function POST(req) {
     // SUBSCRIPTION ACTIVE
     // ==========================================
 
-    if (event.type === "subscription.active") {
+
+    if (
+      event.type === "subscription.active" ||
+      (
+        event.type === "subscription.updated" &&
+        event.data?.status === "active"
+      )
+    ) {
+
       const data = event.data || {};
 
       console.log(
@@ -109,7 +117,7 @@ export async function POST(req) {
 
       expiry.setDate(
         expiry.getDate() +
-          planConfig.durationDays
+        planConfig.durationDays
       );
 
       const indiaDate =
@@ -199,7 +207,7 @@ export async function POST(req) {
 
         expiry.setDate(
           expiry.getDate() +
-            planConfig.durationDays
+          planConfig.durationDays
         );
 
         await db.collection("users").updateOne(
@@ -270,7 +278,7 @@ export async function POST(req) {
               isPro: false,
               subscriptionStatus:
                 event.type ===
-                "subscription.cancelled"
+                  "subscription.cancelled"
                   ? "cancelled"
                   : "expired",
 
