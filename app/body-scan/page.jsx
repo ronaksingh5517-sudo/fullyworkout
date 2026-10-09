@@ -292,11 +292,10 @@ export default function BodyScanPage() {
     if (!imageFile || loading) return;
 
     if (bodyUsage.remaining <= 0) {
-      alert(
-        `Daily Body Scan limit reached.\n\nUsed: ${bodyUsage.used}/${bodyUsage.limit}\nRemaining: 0`
-      );
+      window.location.href = "/pricing";
       return;
     }
+
 
     setLoading(true);
 
@@ -341,22 +340,10 @@ export default function BodyScanPage() {
               remaining: 0,
               plan: String(data?.plan || prev.plan || "free").toLowerCase(),
             }));
-            const currentPlan = String(
-              data?.plan ||
-              data?.planDetails?.name ||
-              bodyUsage.plan ||
-              "free"
-            ).toLowerCase();
 
-            alert(
-              `Daily Body Scan limit reached.\n\nUsed: ${data.used ?? bodyUsage.used
-              }/${data.limit ?? bodyUsage.limit}\nRemaining: 0`
-            );
+            window.location.href = "/pricing";
+            return;
 
-            // Only Free users are sent to Pricing after their daily limit.
-            if (currentPlan === "free" || currentPlan.includes("free")) {
-              window.location.href = "/pricing";
-            }
           } else {
             alert(data.error || "Failed to analyze physique image.");
           }

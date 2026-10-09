@@ -489,11 +489,9 @@ export default function FoodScannerPage() {
 
     // Extra UI protection.
     // Actual quota is still enforced by server.
-    if (foodUsage.remaining <= 0) {
-      alert(
-        "Daily Food Scan limit reached."
-      );
 
+    if (foodUsage.remaining <= 0) {
+      window.location.href = "/pricing";
       return;
     }
 
@@ -803,7 +801,7 @@ export default function FoodScannerPage() {
             Scan  Food
           </h1>
 
-          
+
 
           <div
             style={{
@@ -1823,11 +1821,12 @@ export default function FoodScannerPage() {
           >
             <button
               onClick={handleScan}
+
               disabled={
                 loading ||
-                !imageFile ||
-                foodUsage.remaining <= 0
+                !imageFile
               }
+
               className="button-main"
               style={{
                 width: "100%",

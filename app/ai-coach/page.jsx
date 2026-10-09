@@ -425,7 +425,7 @@ export default function AICoachPage() {
               textDecoration: "none",
             }}
           >
-            Upgrade Plan ⚡
+            
           </Link>
         </div>
 

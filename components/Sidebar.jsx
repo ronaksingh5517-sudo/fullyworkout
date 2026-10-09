@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 export default function Sidebar({ isOpen, onClose }) {
-  const [userName, setUserName] = useState("Ronak Singh");
+  const [userName, setUserName] = useState("Bro");
 
   useEffect(() => {
-    const storedName = localStorage.getItem("aurafit_user_name") || "Ronak Singh";
+    const storedName = localStorage.getItem("aurafit_user_name") || "Bro";
     setUserName(storedName);
   }, []);
 
@@ -118,6 +118,10 @@ export default function Sidebar({ isOpen, onClose }) {
               <span>Unlock Pro</span>
             </button>
           </Link>
+
+
+
+
 
           {/* Profile Footer */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 12px", borderRadius: "12px", background: "rgba(255,255,255,0.03)" }}>
