@@ -114,8 +114,8 @@ export default function Navbar() {
           --card-height: 80px;
           --switch-bg: rgba(255, 255, 255, 0.1);
           --switch-border-color: rgba(255, 255, 255, 0.2);
-          --text-color: #ffffff;
-          --inactive-text-color: rgba(255, 255, 255, 0.6);
+          --text-color: #e8edf5;
+          --inactive-text-color: rgba(225, 232, 242, 0.78);
           --icon-shadow-color: rgba(0, 0, 0, 0.3);
           --card-bg: linear-gradient(
             135deg,
@@ -133,17 +133,16 @@ export default function Navbar() {
 
         .flip-switch {
           display: flex;
+          align-items: stretch;
           position: relative;
-          width: ${session ? "calc(var(--card-width) * 2)" : "var(--card-width)"};
+          width: auto;
           height: var(--card-height);
-          background: var(--switch-bg);
-          border-radius: 20px;
-          border: 1px solid var(--switch-border-color);
-          box-shadow:
-            0 8px 32px 0 rgba(31, 38, 135, 0.37),
-            inset 0 4px 8px rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
+          gap: 10px;
+          background: transparent;
+          border: 0;
+          box-shadow: none;
+          backdrop-filter: none;
+          -webkit-backdrop-filter: none;
           perspective: 1000px;
         }
 
@@ -152,7 +151,13 @@ export default function Navbar() {
         }
 
         .flip-switch .switch-button {
-          flex: 1;
+          border: 0;
+          padding: 0;
+          background: transparent;
+          font: inherit;
+          flex: 0 0 var(--card-width);
+          width: var(--card-width);
+          height: var(--card-height);
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -164,10 +169,65 @@ export default function Navbar() {
           transition: all 0.3s ease;
           -webkit-tap-highlight-color: transparent;
           position: relative;
+          border: 1px solid var(--switch-border-color);
+          border-radius: 18px;
+          background: linear-gradient(135deg, rgba(255,255,255,0.13), rgba(255,255,255,0.055));
+          box-shadow: 0 6px 20px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.12);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          overflow: hidden;
+          isolation: isolate;
+          animation: authButtonFloat 3.8s ease-in-out infinite;
+        }
+
+        .flip-switch .switch-button::before {
+          content: "";
+          position: absolute;
+          inset: -1px;
+          border-radius: inherit;
+          padding: 1px;
+          background: conic-gradient(from 0deg, transparent 0deg, rgba(100,255,218,0.9) 70deg, rgba(126,170,255,0.55) 130deg, transparent 200deg, rgba(100,255,218,0.65) 290deg, transparent 360deg);
+          -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+          opacity: 0.48;
+          pointer-events: none;
+          animation: authBorderOrbit 5s linear infinite;
+        }
+
+        .flip-switch .switch-button::after {
+          content: "";
+          position: absolute;
+          top: -70%;
+          left: -85%;
+          width: 55%;
+          height: 240%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.13), transparent);
+          transform: rotate(22deg);
+          pointer-events: none;
+          animation: authShimmer 4.8s ease-in-out infinite;
+        }
+
+        .flip-switch .switch-button:nth-of-type(2)::before,
+        .flip-switch .switch-button:nth-of-type(2)::after {
+          animation-delay: -2.4s;
         }
 
         .flip-switch .switch-button:hover {
-          color: var(--text-color);
+          color: #f5f8ff;
+          transform: translateY(-3px) scale(1.025);
+          border-color: rgba(100, 255, 218, 0.72);
+          box-shadow: 0 12px 30px rgba(0,0,0,0.25), 0 0 20px rgba(100,255,218,0.2);
+        }
+
+        .flip-switch .switch-button:active {
+          transform: translateY(0) scale(0.98);
+        }
+
+        .flip-switch .switch-button:focus-visible {
+          outline: 2px solid var(--highlight-color);
+          outline-offset: -5px;
+          border-radius: 16px;
         }
 
         .flip-switch .switch-button:hover svg {
@@ -183,9 +243,41 @@ export default function Navbar() {
         }
 
         .flip-switch .switch-button span {
+          position: relative;
+          z-index: 1;
           font-size: 14px;
           font-weight: 500;
-          letter-spacing: 0.5px;
+          letter-spacing: 0.35px;
+          color: #dce4ef;
+          transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .flip-switch .switch-button:hover span {
+          color: #f7f9ff;
+          text-shadow: 0 0 10px rgba(210, 235, 255, 0.3);
+        }
+
+        @keyframes authBorderOrbit {
+          to { transform: rotate(360deg); }
+        }
+
+        @keyframes authShimmer {
+          0%, 58% { left: -85%; opacity: 0; }
+          65% { opacity: 1; }
+          82%, 100% { left: 140%; opacity: 0; }
+        }
+
+        @keyframes authButtonFloat {
+          0%, 100% { box-shadow: 0 6px 20px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.12); }
+          50% { box-shadow: 0 8px 23px rgba(0,0,0,0.19), 0 0 11px rgba(100,255,218,0.08), inset 0 1px 0 rgba(255,255,255,0.16); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .flip-switch .switch-button,
+          .flip-switch .switch-button::before,
+          .flip-switch .switch-button::after {
+            animation: none !important;
+          }
         }
 
         .flip-switch #switch-opt-1:checked ~ [for="switch-opt-1"],
@@ -206,6 +298,7 @@ export default function Navbar() {
           width: var(--card-width);
           height: var(--card-height);
           z-index: 1;
+          pointer-events: none;
           transform-style: preserve-3d;
         }
 
@@ -486,43 +579,53 @@ export default function Navbar() {
                   />
                 )}
 
-                {/* Left Switch: Agar logged in hai toh Logout, warna Login */}
-                {session ? (
-                  <label 
-                    htmlFor="switch-opt-1" 
-                    className="switch-button"
-                    onClick={handleLogout}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                      <path d="M16 13v-2H7V8l-5 4 5 4v-3h9zM20 3h-9c-1.1 0-2 .9-2 2v4h2V5h9v14h-9v-4H9v4c0 1.1.9 2 2 2h9c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"></path>
-                    </svg>
-                    <span>Logout</span>
-                  </label>
+                {/* Logged-out users see Login + Signup. Logged-in users see Logout + Dashboard. */}
+                {!session ? (
+                  <>
+                    <button
+                      type="button"
+                      className="switch-button"
+                      onClick={() => handleNavigation("/login", "login")}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z"></path>
+                      </svg>
+                      <span>Login</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="switch-button"
+                      onClick={() => handleNavigation("/login", "login")}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-4.42 0-8 2.24-8 5v3h16v-3c0-2.76-3.58-5-8-5z"></path>
+                      </svg>
+                      <span>Sign Up</span>
+                    </button>
+                  </>
                 ) : (
-                  <label 
-                    htmlFor="switch-opt-1" 
-                    className="switch-button"
-                    onClick={() => handleNavigation("/login", "login")}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8h5z"></path>
-                    </svg>
-                    <span>Login</span>
-                  </label>
-                )}
-
-                {/* Right Switch: Sirf tab dikhega jab user login ho */}
-                {session && (
-                  <label 
-                    htmlFor="switch-opt-2" 
-                    className="switch-button"
-                    onClick={() => handleNavigation("/dashboard", "profile")}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
-                    </svg>
-                    <span>Dashboard</span>
-                  </label>
+                  <>
+                    <button
+                      type="button"
+                      className="switch-button"
+                      onClick={handleLogout}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+                        <path d="M16 13v-2H7V8l-5 4 5 4v-3h9zM20 3h-9c-1.1 0-2 .9-2 2v4h2V5h9v14h-9v-4H9v4c0 1.1.9 2 2 2h9c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"></path>
+                      </svg>
+                      <span>Logout</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="switch-button"
+                      onClick={() => handleNavigation("/dashboard", "profile")}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+                      </svg>
+                      <span>Dashboard</span>
+                    </button>
+                  </>
                 )}
 
                 {session && (
