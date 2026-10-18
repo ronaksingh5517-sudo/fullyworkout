@@ -146,11 +146,6 @@
 
 
 
-
-
-
-
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -160,7 +155,7 @@ export default function LoginPage() {
   const [isInAppBrowser, setIsInAppBrowser] = useState(false);
 
   useEffect(() => {
-    // Detect karo agar user TikTok, Instagram ya Facebook ke in-app browser mein hai
+    // 🔥 STEP 1: Detect karo ki user TikTok, Instagram ya Facebook ke in-app browser mein hai ya nahi
     const ua = navigator.userAgent || navigator.vendor || window.opera;
     const isInstagram = ua.indexOf("Instagram") > -1;
     const isTikTok = ua.indexOf("TikTok") > -1;
@@ -172,6 +167,17 @@ export default function LoginPage() {
   }, []);
 
   const handleGoogleLogin = async () => {
+    // 🔥 STEP 2: Agar in-app browser hai, toh login hone se roko aur alert do
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    const isInstagram = ua.indexOf("Instagram") > -1;
+    const isTikTok = ua.indexOf("TikTok") > -1;
+    const isFB = ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1;
+
+    if (isInstagram || isTikTok || isFB) {
+      alert("⚠️ Social Media Browser Detected!\n\nFor secure login, Google sign-in is not allowed inside TikTok/Instagram browsers. Please tap the 3 dots (...) in the top right corner and select 'Open in Chrome or Safari'.");
+      return; // Yhin rok diya, signIn call nahi hoga!
+    }
+
     try {
       await signIn("google", {
         callbackUrl: "/dashboard",
@@ -184,6 +190,7 @@ export default function LoginPage() {
   return (
     <div className="login-container">
       <div className="login-card">
+        {/* 🔥 STEP 3: Screen par warning banner dikhane ke liye */}
         {isInAppBrowser && (
           <div className="inapp-warning">
             ⚠️ <b>In-App Browser Detected:</b> For the best login experience, please tap the 3 dots in the top right corner and select <b>"Open in Chrome or Safari"</b>.
