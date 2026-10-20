@@ -543,7 +543,7 @@ export default function Navbar() {
           <ul className="custom-nav-links">
             <li><Link href="/" className="nav-item">Home</Link></li>
             <li>
-              <Link href="/onboarding" className="nav-item" onClick={(e) => handleAnchorClick(e, "#onboarding")}>
+              <Link href="/dashboard" className="nav-item" onClick={(e) => handleAnchorClick(e, "#onboarding")}>
                 Features
               </Link>
             </li>
@@ -553,7 +553,7 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <Link href="/onboarding" className="nav-item" style={{ color: "#ff6b4a" }}>
+              <Link href="/dashboard" className="nav-item" style={{ color: "#ff6b4a" }}>
                 Start for Free
               </Link>
             </li>

@@ -268,7 +268,7 @@ export default function TransformationSection() {
 
             <div className="hero-4-actions">
               <Link
-                href="/onboarding"
+                href="/dashboard"
                 className="btn btn-primary btn-lg"
                 style={{
                   flex: 1,

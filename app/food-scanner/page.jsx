@@ -374,6 +374,42 @@ export default function FoodScannerPage() {
 
   const [isMounted, setIsMounted] =
     useState(false);
+  const [entitlementsLoaded, setEntitlementsLoaded] = useState(false);
+
+  const [showUpgradeOffer, setShowUpgradeOffer] =
+    useState(false);
+  const [offerSecondsLeft, setOfferSecondsLeft] = useState(287);
+  const offerTimeoutRef = useRef(null);
+
+  // Show the offer after a successful scan: 10s normally, 2s if that scan
+  // used the user's final free scan. Do not persist dismissal, so the offer
+  // cannot silently disappear because of a stale localStorage flag.
+  const openUpgradeOffer = (delayMs = 10000) => {
+    if (typeof window === "undefined") return;
+    if (offerTimeoutRef.current) window.clearTimeout(offerTimeoutRef.current);
+    setShowUpgradeOffer(false);
+    offerTimeoutRef.current = window.setTimeout(() => {
+      setOfferSecondsLeft(287); // 4 minutes 47 seconds
+      setShowUpgradeOffer(true);
+      offerTimeoutRef.current = null;
+    }, delayMs);
+  };
+
+  useEffect(() => {
+    if (!showUpgradeOffer) return;
+    const interval = window.setInterval(() => {
+      setOfferSecondsLeft((seconds) => Math.max(0, seconds - 1));
+    }, 1000);
+    return () => window.clearInterval(interval);
+  }, [showUpgradeOffer]);
+
+  const dismissUpgradeOffer = () => {
+    if (offerTimeoutRef.current && typeof window !== "undefined") {
+      window.clearTimeout(offerTimeoutRef.current);
+      offerTimeoutRef.current = null;
+    }
+    setShowUpgradeOffer(false);
+  };
 
   // --------------------------------------------------
   // FOOD SCAN DAILY USAGE
@@ -413,11 +449,13 @@ export default function FoodScannerPage() {
         const data = await response.json();
 
         if (response.ok && data?.success) {
-          const centralPlan = String(
-            data?.plan ||
+          const rawPlan =
+            (typeof data?.plan === "string" && data.plan) ||
+            data?.plan?.name ||
             data?.planDetails?.name ||
-            "free"
-          ).toLowerCase();
+            data?.subscription?.planName ||
+            "free";
+          const centralPlan = String(rawPlan).toLowerCase();
 
           setFoodUsage({
             plan: centralPlan,
@@ -433,7 +471,8 @@ export default function FoodScannerPage() {
           });
 
           // ONLY CENTRAL ENTITLEMENT
-          setIsPro(centralPlan !== "free");
+          setIsPro(!centralPlan.includes("free"));
+          setEntitlementsLoaded(true);
         } else {
           setFoodUsage({
             plan: "free",
@@ -443,6 +482,7 @@ export default function FoodScannerPage() {
           });
 
           setIsPro(false);
+          setEntitlementsLoaded(true);
         }
       } catch (error) {
         console.error(
@@ -458,11 +498,21 @@ export default function FoodScannerPage() {
         });
 
         setIsPro(false);
+        setEntitlementsLoaded(true);
       }
     };
 
     loadEntitlements();
   }, [session]);
+
+  // If a free user opens Food Scanner with today's quota already exhausted,
+  // show the offer on every visit after 2 seconds (not just after an API error).
+  useEffect(() => {
+    if (!entitlementsLoaded || isPro) return;
+    if (Number(foodUsage.remaining) <= 0) {
+      openUpgradeOffer(2000);
+    }
+  }, [entitlementsLoaded, isPro, foodUsage.remaining]);
 
   // --------------------------------------------------
   // FILE SELECT
@@ -491,7 +541,7 @@ export default function FoodScannerPage() {
     // Actual quota is still enforced by server.
 
     if (foodUsage.remaining <= 0) {
-      window.location.href = "/pricing";
+      openUpgradeOffer(2000);
       return;
     }
 
@@ -634,6 +684,11 @@ export default function FoodScannerPage() {
                     : prev.remaining,
               }));
             }
+
+            // Normal successful scans always show the offer after 25 seconds.
+            if (!isPro && String(foodUsage.plan).toLowerCase().includes("free")) {
+              openUpgradeOffer(25000);
+            }
           }
 
           // --------------------------------------------------
@@ -657,7 +712,8 @@ export default function FoodScannerPage() {
               remaining: 0,
 
               plan: String(
-                data?.plan ||
+                (typeof data?.plan === "string" && data.plan) ||
+                data?.plan?.name ||
                 data?.planDetails?.name ||
                 prev.plan ||
                 "free"
@@ -665,20 +721,21 @@ export default function FoodScannerPage() {
             }));
 
             const currentPlan = String(
-              data?.plan ||
+              (typeof data?.plan === "string" && data.plan) ||
+              data?.plan?.name ||
               data?.planDetails?.name ||
               foodUsage.plan ||
               "free"
             ).toLowerCase();
 
-            alert(
-              `Daily Food Scan limit reached.\n\nUsed: ${data.used ?? 0
-              }/${data.limit ?? 0}\nRemaining: 0`
-            );
-
-            // Only Free users are sent to Pricing after their daily limit.
+            // Every time the server reports that the free scan limit is
+            // already reached, show the upgrade offer after 2 seconds.
             if (currentPlan === "free" || currentPlan.includes("free")) {
-              window.location.href = "/pricing";
+              openUpgradeOffer(2000);
+            } else {
+              alert(
+                `Daily Food Scan limit reached.\n\nUsed: ${data.used ?? 0}/${data.limit ?? 0}\nRemaining: 0`
+              );
             }
           }
 
@@ -757,6 +814,311 @@ export default function FoodScannerPage() {
         boxSizing: "border-box",
       }}
     >
+{showUpgradeOffer && !isPro && (
+  <div
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="food-upgrade-title"
+    style={{
+      position: "fixed",
+      inset: 0,
+      zIndex: 9999,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: "16px",
+      background: "rgba(2, 6, 23, 0.85)",
+      backdropFilter: "blur(18px)",
+      WebkitBackdropFilter: "blur(18px)",
+      animation: "fadeInModal 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards",
+      boxSizing: "border-box",
+    }}
+  >
+    <style>
+      {`
+        @keyframes fadeInModal {
+          from { opacity: 0; transform: scale(0.88) translateY(20px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes floatEmoji {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-8px) rotate(6deg); }
+        }
+        @keyframes shimmerText {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+        @keyframes rotateBorder {
+          0% { filter: hue-rotate(0deg); }
+          100% { filter: hue-rotate(360deg); }
+        }
+        @keyframes badgePulse {
+          0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(251,191,36,0); }
+          50% { transform: scale(1.04); box-shadow: 0 0 20px rgba(251,191,36,0.3); }
+        }
+        .shimmer-title {
+          background: linear-gradient(90deg, #ffffff 0%, #38bdf8 30%, #ffffff 60%, #38bdf8 100%);
+          background-size: 200% auto;
+          color: transparent;
+          -webkit-background-clip: text;
+          background-clip: text;
+          animation: shimmerText 3.5s linear infinite;
+        }
+        .upgrade-btn {
+          position: relative;
+          overflow: hidden;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .upgrade-btn::after {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: linear-gradient(60deg, transparent, rgba(255,255,255,0.25), transparent);
+          transform: translateX(-100%);
+        }
+        .upgrade-btn:hover::after {
+          transform: translateX(100%);
+          transition: transform 0.6s ease-in-out;
+        }
+        .upgrade-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 25px rgba(56, 189, 248, 0.45);
+        }
+        .upgrade-btn:active {
+          transform: translateY(0);
+        }
+        .close-btn:hover {
+          color: #ffffff !important;
+          background: rgba(255, 255, 255, 0.12) !important;
+          transform: rotate(90deg);
+        }
+      `}
+    </style>
+
+    {/* Responsive Outer Glowing Border Wrapper */}
+    <div
+      style={{
+        position: "relative",
+        width: "100%",
+        maxWidth: 420,
+        margin: "auto",
+        padding: "2px",
+        borderRadius: 32,
+        background: "linear-gradient(135deg, #38bdf8, #818cf8, #ec4899, #38bdf8)",
+        backgroundSize: "300% 300%",
+        animation: "rotateBorder 5s linear infinite",
+        boxShadow: "0 30px 80px rgba(0,0,0,0.85), 0 0 45px rgba(56,189,248,0.25)",
+        boxSizing: "border-box",
+      }}
+    >
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          padding: "28px 20px 24px",
+          borderRadius: 30,
+          background: "linear-gradient(145deg, #070b17 0%, #020409 100%)",
+          textAlign: "center",
+          boxSizing: "border-box",
+        }}
+      >
+        {/* Close Button */}
+        <button
+          type="button"
+          aria-label="Close offer"
+          onClick={dismissUpgradeOffer}
+          className="close-btn"
+          style={{
+            position: "absolute",
+            top: 12,
+            right: 12,
+            border: 0,
+            background: "transparent",
+            color: "#9ca3af",
+            fontSize: 18,
+            cursor: "pointer",
+            width: 34,
+            height: 34,
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transition: "all 0.3s ease",
+          }}
+        >
+          ✕
+        </button>
+
+        {/* Animated Timer Badge */}
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            marginBottom: 14,
+            padding: "5px 12px",
+            borderRadius: 999,
+            border: "1px solid rgba(251,191,36,0.4)",
+            background: "rgba(251,191,36,0.1)",
+            color: "#fcd34d",
+            fontSize: 11,
+            fontWeight: 900,
+            letterSpacing: 0.5,
+            animation: "badgePulse 2s infinite ease-in-out",
+          }}
+        >
+          <span>⏳</span>
+          <span>
+            ONLY {String(Math.floor(offerSecondsLeft / 60)).padStart(2, "0")}:
+            {String(offerSecondsLeft % 60).padStart(2, "0")} LEFT
+          </span>
+        </div>
+
+        {/* Floating Emoji Icon */}
+        <div
+          style={{
+            fontSize: 38,
+            marginBottom: 8,
+            animation: "floatEmoji 3s ease-in-out infinite",
+            filter: "drop-shadow(0 0 14px rgba(250, 204, 21, 0.45))",
+          }}
+        >
+          ⚡
+        </div>
+
+        {/* Sub-heading */}
+        <div
+          style={{
+            color: "#38bdf8",
+            fontSize: 10,
+            fontWeight: 800,
+            letterSpacing: "2.5px",
+            marginBottom: 6,
+            textTransform: "uppercase",
+          }}
+        >
+          Exclusive Pro Perk
+        </div>
+
+        {/* Shimmer Animated Main Title */}
+        <h2
+          id="food-upgrade-title"
+          className="shimmer-title"
+          style={{
+            margin: "0 0 10px",
+            fontSize: 24,
+            fontWeight: 800,
+            lineHeight: 1.25,
+          }}
+        >
+          Don’t stop your progress here.
+        </h2>
+
+        {/* Description */}
+        <p
+          style={{
+            margin: "0 0 18px",
+            color: "#94a3b8",
+            fontSize: 13.5,
+            lineHeight: 1.5,
+          }}
+        >
+          Upgrade now and unlock unlimited Food Scans to keep your nutrition goals on track.
+        </p>
+
+        {/* Coupon Card */}
+        <div
+          style={{
+            margin: "0 auto 18px",
+            padding: "14px",
+            borderRadius: 16,
+            border: "1px dashed rgba(56,189,248,0.5)",
+            background: "linear-gradient(135deg, rgba(56,189,248,0.07) 0%, rgba(129,140,248,0.02) 100%)",
+            boxShadow: "inset 0 2px 8px rgba(0,0,0,0.3)",
+          }}
+        >
+          <div style={{ color: "#64748b", fontSize: 10, fontWeight: 700, letterSpacing: 1.2, marginBottom: 4 }}>
+            LIMITED TIME CODE
+          </div>
+          <div
+            style={{
+              color: "#38bdf8",
+              fontSize: 26,
+              fontWeight: 950,
+              letterSpacing: 2.5,
+              textShadow: "0 0 12px rgba(56,189,248,0.4)",
+            }}
+          >
+            50OFF
+          </div>
+          <div style={{ color: "#cbd5e1", fontSize: 11.5, marginTop: 4, fontWeight: 500 }}>
+            Get 50% off your plan instantly
+          </div>
+        </div>
+
+        {/* CTA Button */}
+        <button
+          type="button"
+          className="upgrade-btn"
+          onClick={() => {
+            window.location.href = "/pricing?coupon=50OFF";
+          }}
+          style={{
+            width: "100%",
+            border: 0,
+            borderRadius: 14,
+            padding: "14px 18px",
+            background: "linear-gradient(135deg, #0284c7 0%, #38bdf8 50%, #7dd3fc 100%)",
+            color: "#04111b",
+            fontSize: 15,
+            fontWeight: 900,
+            cursor: "pointer",
+            boxShadow: "0 6px 18px rgba(56, 189, 248, 0.35)",
+          }}
+        >
+          Explore Plans →
+        </button>
+
+        {/* Fine Print */}
+        <div
+          style={{
+            marginTop: 10,
+            color: "#475569",
+            fontSize: 9.5,
+            lineHeight: 1.4,
+          }}
+        >
+          *Discount applies only if 50OFF is enabled at checkout.
+        </div>
+
+        {/* Dismiss Button */}
+        <button
+          type="button"
+          onClick={dismissUpgradeOffer}
+          style={{
+            marginTop: 6,
+            padding: 6,
+            border: 0,
+            background: "transparent",
+            color: "#64748b",
+            fontSize: 12.5,
+            fontWeight: 600,
+            cursor: "pointer",
+            transition: "color 0.2s ease",
+          }}
+          onMouseEnter={(e) => (e.target.style.color = "#cbd5e1")}
+          onMouseLeave={(e) => (e.target.style.color = "#64748b")}
+        >
+          Maybe later
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
       <div
         style={{
           maxWidth: "540px",

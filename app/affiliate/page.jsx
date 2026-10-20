@@ -147,7 +147,7 @@ export default function AffiliatePage() {
           position: sticky;
           top: 0;
           z-index: 50;
-          background: rgba(7, 17, 38, .96);
+          background: rgba(1, 6, 12, 0.96);
           border-bottom: 1px solid var(--line);
           backdrop-filter: blur(20px);
         }
@@ -171,6 +171,172 @@ export default function AffiliatePage() {
           letter-spacing: -.7px;
           white-space: nowrap;
         }
+
+
+/* LOGO — RESPONSIVE ON ALL SCREEN SIZES */
+
+.fw-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.fw-logo-image {
+  width: 50px;
+  height: 50px;
+  flex: 0 0 50px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 0%;
+  background: rgba(255, 255, 255, 0.30);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.fw-logo-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 0%;
+}
+
+/* SMALL DESKTOP + TABLET */
+@media (max-width: 1100px) {
+  .fw-nav-inner {
+    width: calc(100% - 32px);
+    gap: 14px;
+  }
+
+  .fw-nav-links {
+    gap: 14px;
+  }
+
+  .fw-nav-links > a {
+    font-size: 12px;
+  }
+
+  .fw-nav-actions {
+    gap: 12px;
+  }
+
+  .fw-logo-image {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+
+  .fw-logo-text {
+    font-size: 16px;
+  }
+
+  .fw-btn.fw-btn-primary {
+    padding: 0 12px;
+  }
+}
+
+/* TABLET — LINKS FIT INSIDE NAVBAR */
+@media (min-width: 761px) and (max-width: 900px) {
+  .fw-nav-inner {
+    width: calc(100% - 24px);
+    gap: 10px;
+  }
+
+  .fw-logo {
+    gap: 7px;
+  }
+
+  .fw-logo-image {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+  }
+
+  .fw-logo-text {
+    font-size: 15px;
+  }
+
+  .fw-nav-links {
+    gap: 10px;
+  }
+
+  .fw-nav-links > a {
+    font-size: 11px;
+  }
+
+  .fw-nav-actions {
+    gap: 9px;
+  }
+
+  .fw-signin {
+    font-size: 11px;
+  }
+
+  .fw-btn.fw-btn-primary {
+    min-height: 38px;
+    padding: 0 9px;
+    font-size: 11px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 760px) {
+  .fw-nav {
+    height: 70px;
+  }
+
+  .fw-nav-inner {
+    width: calc(100% - 24px);
+    gap: 8px;
+  }
+
+  .fw-logo {
+    gap: 8px;
+  }
+
+  .fw-logo-image {
+    width: 50px;
+    height: 50px;
+    flex-basis: 50px;
+  }
+
+  .fw-logo-text {
+    font-size: 16px;
+  }
+}
+
+/* VERY NARROW PHONES */
+@media (max-width: 360px) {
+  .fw-nav-inner {
+    width: calc(100% - 16px);
+    gap: 5px;
+  }
+
+  .fw-logo {
+    gap: 6px;
+  }
+
+  .fw-logo-text {
+    font-size: 14px;
+    letter-spacing: -0.4px;
+  }
+
+  .fw-nav-actions {
+    gap: 8px;
+  }
+
+  .fw-signin {
+    font-size: 11px;
+  }
+
+  .fw-menu-button {
+    width: 35px;
+    height: 35px;
+  }
+}
+
 
         .fw-logo-mark {
           display: grid;
@@ -1281,12 +1447,21 @@ export default function AffiliatePage() {
         }
       `}</style>
 
-      {/* NAVIGATION */}
+
+      {/* RESPONSIVE NAVIGATION */}
       <header className="fw-nav">
         <div className="fw-nav-inner">
           <a className="fw-logo" href="/" aria-label="FullyWorkout home">
-            <span className="fw-logo-mark">F</span>
-            <span>Fully<span>Workout</span></span>
+            <span className="fw-logo-image">
+              <img
+                src="/favicon.png"
+                alt="FullyWorkout logo"
+              />
+            </span>
+
+            <span className="fw-logo-text">
+              Fully<span>Workout</span>
+            </span>
           </a>
 
           <nav
@@ -1296,14 +1471,25 @@ export default function AffiliatePage() {
             <a href="#commission" onClick={() => setMenuOpen(false)}>
               Commission
             </a>
+
             <a href="#plans" onClick={() => setMenuOpen(false)}>
               Plans
             </a>
+
             <a href="#how-it-works" onClick={() => setMenuOpen(false)}>
               How It Works
             </a>
+
             <a href="#faqs" onClick={() => setMenuOpen(false)}>
               FAQs
+            </a>
+
+            <a
+              className="fw-mobile-apply"
+              href="/login"
+              onClick={() => setMenuOpen(false)}
+            >
+              Start Now <span aria-hidden="true">↗</span>
             </a>
           </nav>
 
@@ -1311,9 +1497,11 @@ export default function AffiliatePage() {
             <a className="fw-signin" href="/login">
               Sign in
             </a>
-            <a className="fw-btn fw-btn-primary" href="/affiliate/apply">
-              Become a Partner <span aria-hidden="true">↗</span>
+
+            <a className="fw-btn fw-btn-primary" href="/login">
+              Start Now <span aria-hidden="true">↗</span>
             </a>
+
             <button
               type="button"
               className="fw-menu-button"

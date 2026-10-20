@@ -1128,7 +1128,7 @@ export default function PricingSection() {
                 <div className="price-wrap">
 
                   <div className="price">
-                    $4.99
+                    $8.99
                   </div>
 
                   <span>
@@ -1353,7 +1353,7 @@ export default function PricingSection() {
                         "#ff5232",
                     }}
                   >
-                    $12.99
+                    $24.99
                   </div>
 
                   <span>

@@ -12,6 +12,7 @@ export default function HeroVideo() {
     if (savedCount) {
       setActiveUsers(parseInt(savedCount, 10));
     }
+
   }, []);
 
   // Continuous organic counter running 24/7 with sequential stepping & saving state
@@ -147,10 +148,7 @@ export default function HeroVideo() {
       `}</style>
 
       <section className="hero hero-responsive-section" aria-label="AI-Powered Fitness and Workout Platform">
-        <video autoPlay loop muted playsInline className="hero-video-bg">
-          <source src="/videos/hero-gym.mp4" type="video/mp4" />
-        </video>
-        <div className="hero-overlay"></div>
+               <div className="hero-overlay"></div>
 
         <div className="hero-content-wrapper">
           <div className="fade-in">
@@ -183,7 +181,7 @@ export default function HeroVideo() {
               you follow a structured 30-day fitness transformation journey.
             </p>
             <div className="hero-actions-group">
-              <Link href="/onboarding" className="btn btn-primary btn-lg">
+              <Link href="/dashboard" className="btn btn-primary btn-lg">
                 Start Your Free Fitness Plan →
               </Link>
 
