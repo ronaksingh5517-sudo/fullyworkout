@@ -54,7 +54,7 @@ export default function AuthView({ initialStep = "onboarding" }) {
       if (result?.error) {
         alert("Invalid email or password. Please try again.");
       } else {
-        router.push("/dashboard");
+        router.push("/paywall/step-1");
       }
     } catch (err) {
       console.error("Login error:", err);
@@ -109,7 +109,7 @@ export default function AuthView({ initialStep = "onboarding" }) {
           </div>
 
           <button type="submit" disabled={loading} style={{ background: "linear-gradient(135deg, #a67dff, #7a45ff)", color: "#fff", border: "none", padding: "12px", borderRadius: "8px", fontWeight: 700, cursor: "pointer", marginTop: "10px", opacity: loading ? 0.7 : 1 }}>
-            {loading ? "Authenticating..." : "Login & Open Dashboard →"}
+            {loading ? "Authenticating..." : "Continue →"}
           </button>
         </form>
       )}

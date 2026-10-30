@@ -56,7 +56,7 @@ export default function PricingSection() {
       if (!response.ok || !data?.success) {
         throw new Error(
           data?.error ||
-            "Unable to start checkout."
+          "Unable to start checkout."
         );
       }
 
@@ -77,7 +77,7 @@ export default function PricingSection() {
 
       alert(
         error?.message ||
-          "Unable to start payment. Please try again."
+        "Unable to start payment. Please try again."
       );
     }
   };
@@ -914,7 +914,7 @@ export default function PricingSection() {
                   "-0.03em",
               }}
             >
-              Start free. Upgrade as you transform.
+              Start a free Trial just $0.00
             </h2>
 
 
@@ -952,167 +952,6 @@ export default function PricingSection() {
             className="pricing-grid-updated"
           >
 
-            {/* ==================================
-                FREE PLAN
-            ================================== */}
-
-            <div
-              className="card fade-in"
-            >
-
-              <div>
-
-                <div className="price-wrap">
-
-                  <div className="price">
-                    $0
-                  </div>
-
-                  <span>
-                    / lifetime
-                  </span>
-
-                </div>
-
-
-                <div className="plan-title">
-                  Free
-                </div>
-
-
-                <div className="plan-desc">
-                  Get started with essentials
-                </div>
-
-
-                <ul className="lists">
-
-                  <li className="list">
-
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="#ff5232"
-                        d="M21.5821 5.54289C21.9726 5.93342 21.9726 6.56658 21.5821 6.95711L10.2526 18.2867C9.86452 18.6747 9.23627 18.6775 8.84475 18.293L2.29929 11.8644C1.90527 11.4774 1.89956 10.8443 2.28655 10.4503C2.67354 10.0562 3.30668 10.0505 3.70071 10.4375L9.53911 16.1717L20.1679 5.54289C20.5584 5.15237 21.1916 5.15237 21.5821 5.54289Z"
-                        clipRule="evenodd"
-                        fillRule="evenodd"
-                      />
-                    </svg>
-
-                    <span>
-                      ⚠️ Contains Ads
-                    </span>
-
-                  </li>
-
-
-                  <li className="list">
-
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="#ff5232"
-                        d="M21.5821 5.54289C21.9726 5.93342 21.9726 6.56658 21.9726 6.95711L10.2526 18.2867C9.86452 18.6747 9.23627 18.6775 8.84475 18.293L2.29929 11.8644C1.90527 11.4774 1.89956 10.8443 2.28655 10.4503C2.67354 10.0562 3.30668 10.0505 3.70071 10.4375L9.53911 16.1717L20.1679 5.54289C20.5584 5.15237 21.1916 5.15237 21.5821 5.54289Z"
-                        clipRule="evenodd"
-                        fillRule="evenodd"
-                      />
-                    </svg>
-
-                    <span>
-                      1 Food Scan / day
-                    </span>
-
-                  </li>
-
-
-                  <li className="list">
-
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="#ff5232"
-                        d="M21.5821 5.54289C21.9726 5.93342 21.9726 6.56658 21.5821 6.95711L10.2526 18.2867C9.86452 18.6747 9.23627 18.6775 8.84475 18.293L2.29929 11.8644C1.90527 11.4774 1.89956 10.8443 2.28655 10.4503C2.67354 10.0562 3.30668 10.0505 3.70071 10.4375L9.53911 16.1717L20.1679 5.54289C20.5584 5.15237 21.1916 5.15237 21.5821 5.54289Z"
-                        clipRule="evenodd"
-                        fillRule="evenodd"
-                      />
-                    </svg>
-
-                    <span>
-                      1 Body Scan / day
-                    </span>
-
-                  </li>
-
-
-                  <li className="list">
-
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="#ff5232"
-                        d="M21.5821 5.54289C21.9726 5.93342 21.9726 6.56658 21.5821 6.95711L10.2526 18.2867C9.86452 18.6747 9.23627 18.6775 8.84475 18.293L2.29929 11.8644C1.90527 11.4774 1.89956 10.8443 2.28655 10.4503C2.67354 10.0562 3.30668 10.0505 3.70071 10.4375L9.53911 16.1717L20.1679 5.54289C20.5584 5.15237 21.1916 5.15237 21.5821 5.54289Z"
-                        clipRule="evenodd"
-                        fillRule="evenodd"
-                      />
-                    </svg>
-
-                    <span>
-                      5 AI Chat Msgs / day
-                    </span>
-
-                  </li>
-
-
-                  <li className="list">
-
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="#ff5232"
-                        d="M21.5821 5.54289C21.9726 5.93342 21.9726 6.56658 21.5821 6.95711L10.2526 18.2867C9.86452 18.6747 9.23627 18.6775 8.84475 18.293L2.29929 11.8644C1.90527 11.4774 1.89956 10.8443 2.28655 10.4503C2.67354 10.0562 3.30668 10.0505 3.70071 10.4375L9.53911 16.1717L20.1679 5.54289C20.5584 5.15237 21.1916 5.15237 21.5821 5.54289Z"
-                        clipRule="evenodd"
-                        fillRule="evenodd"
-                      />
-                    </svg>
-
-                    <span>
-                      Full body Transformation
-                    </span>
-
-                  </li>
-
-                </ul>
-
-              </div>
-
-
-              <button
-                onClick={() =>
-                  handlePayment(
-                    "Free"
-                  )
-                }
-                className="action"
-              >
-                Get started
-              </button>
-
-            </div>
 
 
             {/* ==================================
@@ -1122,13 +961,18 @@ export default function PricingSection() {
             <div
               className="card fade-in"
             >
+              <span
+                className="pricing-badge-popular"
+              >
+                POPULAR
+              </span>
 
               <div>
 
                 <div className="price-wrap">
 
                   <div className="price">
-                    $8.99
+                    $2.99
                   </div>
 
                   <span>
@@ -1237,7 +1081,7 @@ export default function PricingSection() {
 
                   </li>
 
-                     <li className="list">
+                  <li className="list">
 
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -1253,7 +1097,7 @@ export default function PricingSection() {
                     </svg>
 
                     <span>
-                     Workout Unlocked
+                      Workout Unlocked
                     </span>
 
                   </li>
@@ -1353,7 +1197,7 @@ export default function PricingSection() {
                         "#ff5232",
                     }}
                   >
-                    $24.99
+                    $8.99
                   </div>
 
                   <span>
@@ -1462,7 +1306,7 @@ export default function PricingSection() {
 
                   </li>
 
-                     <li className="list">
+                  <li className="list">
 
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -1563,7 +1407,7 @@ export default function PricingSection() {
               <span
                 className="pricing-badge-save"
               >
-                SAVE 36%
+                SAVE 86%
               </span>
 
 
@@ -1572,7 +1416,7 @@ export default function PricingSection() {
                 <div className="price-wrap">
 
                   <div className="price">
-                    $99
+                    $29.99
                   </div>
 
                   <span>
@@ -1681,7 +1525,7 @@ export default function PricingSection() {
 
                   </li>
 
-                  
+
                   <li className="list">
 
                     <svg

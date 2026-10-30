@@ -553,7 +553,7 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <Link href="/dashboard" className="nav-item" style={{ color: "#ff6b4a" }}>
+              <Link href="/login" className="nav-item" style={{ color: "#ff6b4a" }}>
                 Start for Free
               </Link>
             </li>

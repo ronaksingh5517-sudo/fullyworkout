@@ -18,7 +18,7 @@ const creatorExamples = [
     platform: "Instagram",
     views: "100,000",
     buyers: 1000,
-    earnings: "$1,497.00",
+    earnings: "....$1,497.00",
     progress: "58%",
     color: "#b4a0ff",
   },
@@ -100,7 +100,7 @@ export default function AffiliatePage() {
 
   return (
     <main className="fw-page">
-      <style>{`
+      <style jsx global>{`
         * {
           box-sizing: border-box;
         }
@@ -1445,6 +1445,86 @@ export default function AffiliatePage() {
             font-size: 22px;
           }
         }
+          /* Assumption note */
+.fw-assumption-note {
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 12px 20px;
+  border-radius: 12px;
+  margin-bottom: 40px;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Card price highlight */
+.fw-plan-price {
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 6px;
+  margin-bottom: 24px;
+  background: linear-gradient(90deg, #fff, #a5b4fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Earnings rows */
+.fw-earn-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fw-earn-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  transition: all 0.25s ease;
+}
+
+.fw-earn-row:hover {
+  background: rgba(255, 255, 255, 0.06);
+  transform: translateY(-2px);
+}
+
+.fw-views,
+.fw-earn {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fw-views-label,
+.fw-earn-label {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.fw-views-value {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.fw-earn-amount-sm {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* How to earn spacing */
+.fw-how-to-earn {
+  margin-top: 80px;
+  padding-top: 64px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
       `}</style>
 
 
@@ -1606,138 +1686,208 @@ export default function AffiliatePage() {
         </div>
       </section>
 
-      {/* COMMISSION */}
-      <section className="fw-section" id="commission">
-        <div className="fw-container">
-          <div className="fw-section-head">
-            <div className="fw-label">THE COMMISSION MODEL</div>
-            <h2>
-              Your content can create
-              <br />
-              <span className="fw-gradient-text">new opportunities.</span>
-            </h2>
-            <p>
-              Understand how views, buyer conversion, plan price, and
-              commission rate can affect a referral estimate.
-            </p>
-          </div>
+    {/* COMMISSION */}
+<section className="fw-section" id="commission">
+  <div className="fw-container">
+    <div className="fw-section-head">
+      <div className="fw-label">THE COMMISSION MODEL</div>
+      <h2>
+        Earn <span className="fw-gradient-text">30% commission</span>
+        <br />
+        on every successful purchase
+      </h2>
+      <p>
+        Here’s how views can turn into real earnings with different plans.
+      </p>
+    </div>
 
-          <div className="fw-commission-band">
-            <div>
-              <h3 className="fw-band-title">A simple example to understand the math</h3>
-              <p className="fw-band-sub">
-                Assumed commission rate: 30% · Assumed view-to-buyer conversion: 1%
-              </p>
+    {/* Assumption note */}
+    <div className="fw-assumption-note">
+      All examples below are based on assumed views and a 1% conversion rate for illustration purposes only.
+    </div>
+
+    <div className="fw-commission-grid">
+
+      {/* WEEKLY PLAN */}
+      <article className="fw-commission-card">
+        <div className="fw-card-index">WEEKLY PLAN</div>
+        <div className="fw-plan-price">$4.99</div>
+
+        <div className="fw-earn-breakdown">
+          <div className="fw-earn-row">
+            <div className="fw-views">
+              <span className="fw-views-label">Views</span>
+              <span className="fw-views-value">10K</span>
             </div>
-            <div className="fw-rate-box">
-              <strong>30%</strong>
-              <span>Example commission rate</span>
+            <div className="fw-earn">
+              <span className="fw-earn-label">Commission</span>
+              <span className="fw-earn-amount-sm">$149.70</span>
             </div>
           </div>
 
-          <div className="fw-commission-grid">
-            {creatorExamples.map((creator, index) => (
-              <article className="fw-commission-card" key={creator.username}>
-                <div className="fw-card-index">
-                  EXAMPLE 0{index + 1} · {creator.platform.toUpperCase()}
-                </div>
-
-                <div style={{ marginTop: 19 }}>
-                  <div className="fw-sales-label">Assumed content views</div>
-                  <div className="fw-sales-amount">{creator.views}</div>
-                </div>
-
-                <div className="fw-card-divider" />
-
-                <div>
-                  <div className="fw-earn-label">Assumed buyers at 1%</div>
-                  <div className="fw-sales-amount">
-                    {creator.buyers.toLocaleString()}
-                  </div>
-                </div>
-
-                <div className="fw-card-divider" />
-
-                <div className="fw-earn-label">
-                  Estimated commission using $4.99 per purchase
-                </div>
-                <div className="fw-earn-amount">{creator.earnings}</div>
-
-                <div className="fw-card-detail">
-                  <span>Example purchase price</span>
-                  <span>$4.99</span>
-                </div>
-                <div className="fw-card-detail">
-                  <span>Commission rate</span>
-                  <span>30%</span>
-                </div>
-              </article>
-            ))}
+          <div className="fw-earn-row">
+            <div className="fw-views">
+              <span className="fw-views-label">Views</span>
+              <span className="fw-views-value">100K</span>
+            </div>
+            <div className="fw-earn">
+              <span className="fw-earn-label">Commission</span>
+              <span className="fw-earn-amount-sm">$1,497</span>
+            </div>
           </div>
 
-          <p className="fw-commission-note">
-            Important: These examples use an assumed 1% conversion rate and
-            an illustrative $4.99 purchase price. They are not forecasts,
-            actual affiliate results, or guaranteed earnings. Actual
-            commissions depend on the real plan price, approved program
-            terms, eligible purchases, referral attribution, refunds, and
-            any applicable adjustments. Confirm your actual commission
-            terms before publishing these figures as an offer.
+          <div className="fw-earn-row">
+            <div className="fw-views">
+              <span className="fw-views-label">Views</span>
+              <span className="fw-views-value">1M</span>
+            </div>
+            <div className="fw-earn">
+              <span className="fw-earn-label">Commission</span>
+              <span className="fw-earn-amount-sm">$14,970</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="fw-card-detail">
+          1% conversion · 30% commission
+        </div>
+      </article>
+
+      {/* MONTHLY PLAN */}
+      <article className="fw-commission-card">
+        <div className="fw-card-index">MONTHLY PLAN</div>
+        <div className="fw-plan-price">$12.99</div>
+
+        <div className="fw-earn-breakdown">
+          <div className="fw-earn-row">
+            <div className="fw-views">
+              <span className="fw-views-label">Views</span>
+              <span className="fw-views-value">10K</span>
+            </div>
+            <div className="fw-earn">
+              <span className="fw-earn-label">Commission</span>
+              <span className="fw-earn-amount-sm">$389.70</span>
+            </div>
+          </div>
+
+          <div className="fw-earn-row">
+            <div className="fw-views">
+              <span className="fw-views-label">Views</span>
+              <span className="fw-views-value">100K</span>
+            </div>
+            <div className="fw-earn">
+              <span className="fw-earn-label">Commission</span>
+              <span className="fw-earn-amount-sm">$3,897</span>
+            </div>
+          </div>
+
+          <div className="fw-earn-row">
+            <div className="fw-views">
+              <span className="fw-views-label">Views</span>
+              <span className="fw-views-value">1M</span>
+            </div>
+            <div className="fw-earn">
+              <span className="fw-earn-label">Commission</span>
+              <span className="fw-earn-amount-sm">$38,970</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="fw-card-detail">
+          1% conversion · 30% commission
+        </div>
+      </article>
+
+      {/* YEARLY PLAN */}
+      <article className="fw-commission-card">
+        <div className="fw-card-index">YEARLY PLAN</div>
+        <div className="fw-plan-price">$99</div>
+
+        <div className="fw-earn-breakdown">
+          <div className="fw-earn-row">
+            <div className="fw-views">
+              <span className="fw-views-label">Views</span>
+              <span className="fw-views-value">10K</span>
+            </div>
+            <div className="fw-earn">
+              <span className="fw-earn-label">Commission</span>
+              <span className="fw-earn-amount-sm">$2,970</span>
+            </div>
+          </div>
+
+          <div className="fw-earn-row">
+            <div className="fw-views">
+              <span className="fw-views-label">Views</span>
+              <span className="fw-views-value">100K</span>
+            </div>
+            <div className="fw-earn">
+              <span className="fw-earn-label">Commission</span>
+              <span className="fw-earn-amount-sm">$29,700</span>
+            </div>
+          </div>
+
+          <div className="fw-earn-row">
+            <div className="fw-views">
+              <span className="fw-views-label">Views</span>
+              <span className="fw-views-value">1M</span>
+            </div>
+            <div className="fw-earn">
+              <span className="fw-earn-label">Commission</span>
+              <span className="fw-earn-amount-sm">$297,000</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="fw-card-detail">
+          1% conversion · 30% commission
+        </div>
+      </article>
+
+    </div>
+
+    <p className="fw-commission-note">
+      Actual results depend on real plan price, approved terms, attribution, refunds and adjustments.
+    </p>
+
+    {/* HOW TO EARN */}
+    <div className="fw-how-to-earn">
+      <div className="fw-section-head">
+        <div className="fw-label">HOW TO EARN</div>
+        <h2>
+          Create content.
+          <br />
+          <span className="fw-gradient-text">Share your link. Earn.</span>
+        </h2>
+      </div>
+
+      <div className="fw-steps-grid">
+        <article className="fw-step">
+          <div className="fw-step-number">01</div>
+          <h3>Create content</h3>
+          <p>
+            Post useful fitness content on TikTok, Instagram, X, Reddit or any platform where your audience is active.
           </p>
-        </div>
-      </section>
+        </article>
 
-      {/* PLANS */}
-      <section className="fw-section" id="plans">
-        <div className="fw-container">
-          <div className="fw-section-head">
-            <div className="fw-label">FITNESS PLANS</div>
-            <h2>
-              One fitness platform.
-              <br />
-              <span className="fw-gradient-text">Different goals.</span>
-            </h2>
-            <p>
-              Introduce your audience to the subscription duration that
-              suits their needs. Check the live checkout for current pricing
-              and included features.
-            </p>
-          </div>
+        <article className="fw-step">
+          <div className="fw-step-number">02</div>
+          <h3>Get your referral link</h3>
+          <p>
+            After approval, you’ll receive a unique referral link to share with your audience.
+          </p>
+        </article>
 
-          <div className="fw-plan-grid">
-            {plans.map((plan) => (
-              <article
-                className={`fw-plan-card ${plan.featured ? "featured" : ""}`}
-                key={plan.name}
-              >
-                <div className="fw-plan-eyebrow">FULLYWORKOUT PLAN</div>
-                <h3>{plan.name}</h3>
-                <p>{plan.description}</p>
-
-                <div className="fw-plan-rule" />
-
-                <ul className="fw-plan-list">
-                  {plan.features.map((feature) => (
-                    <li key={feature}>
-                      <span className="fw-check">✓</span>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="fw-plan-footer">
-                  Plan prices and exact entitlements should match your
-                  current FullyWorkout checkout.
-                </div>
-
-                <a className="fw-btn fw-btn-outline" href="/login">
-                  Explore FullyWorkout <span aria-hidden="true">→</span>
-                </a>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+        <article className="fw-step">
+          <div className="fw-step-number">03</div>
+          <h3>Share & earn</h3>
+          <p>
+            When someone buys any plan through your link, you earn 30% commission on every successful purchase.
+          </p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* HOW IT WORKS */}
       <section className="fw-section" id="how-it-works">
