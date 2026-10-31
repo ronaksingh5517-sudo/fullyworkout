@@ -180,7 +180,7 @@ export default function LoginPage() {
 
     try {
       await signIn("google", {
-        callbackUrl: "/paywall/step-1",
+        callbackUrl: "/auth/redirect",
       });
     } catch (err) {
       console.error("Google login error:", err);

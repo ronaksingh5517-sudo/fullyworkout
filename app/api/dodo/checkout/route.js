@@ -78,13 +78,17 @@ export async function POST(req) {
             "FullyWorkout User",
         },
 
+        feature_flags: {
+          allow_phone_number_collection: false,
+          require_phone_number: false, 
+          minimal_address: true,
+        },
         metadata: {
           user_email: session.user.email,
           plan: plan,
         },
 
-        return_url:
-          "https://fullyworkout.com/dashboard",
+        return_url: "https://fullyworkout.com/payment/return",
       });
 
     // ==========================================

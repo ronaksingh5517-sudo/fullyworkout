@@ -16,13 +16,35 @@ export default function DashboardPage() {
   const [startX, setStartX] = useState(0);
   const [rotY, setRotY] = useState(0);
   const carouselRef = useRef(null);
-
   useEffect(() => {
     setIsLoaded(true);
-    const savedName = localStorage.getItem("aurafit_user_name") || "Bro";
-    const proStatus = localStorage.getItem("aurafit_is_pro") === "true";
+
+    const savedName =
+      localStorage.getItem("aurafit_user_name") || "Bro";
+
     setUserName(savedName);
-    setIsPro(proStatus);
+
+    const checkSubscription = async () => {
+      try {
+        const response = await fetch("/api/subscription/status", {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          setIsPro(false);
+          return;
+        }
+
+        const data = await response.json();
+        setIsPro(data.isPro === true);
+      } catch (error) {
+        console.error("Subscription check failed:", error);
+        setIsPro(false);
+      }
+    };
+
+    checkSubscription();
   }, []);
 
   const handleMouseDown = (e) => {
@@ -43,40 +65,40 @@ export default function DashboardPage() {
   };
 
   return (
-    <main style={{ 
-      minHeight: "100vh", 
-      background: "#080a0e", 
-      color: "#ffffff", 
-      padding: "24px 16px 110px 16px", 
-      fontFamily: "system-ui, sans-serif", 
+    <main style={{
+      minHeight: "100vh",
+      background: "#080a0e",
+      color: "#ffffff",
+      padding: "24px 16px 110px 16px",
+      fontFamily: "system-ui, sans-serif",
       boxSizing: "border-box",
-      opacity: isLoaded ? 1 : 0, 
-      transition: "opacity 0.3s ease-in-out" 
+      opacity: isLoaded ? 1 : 0,
+      transition: "opacity 0.3s ease-in-out"
     }}>
       <div style={{ maxWidth: "580px", margin: "0 auto" }}>
-        
+
         {/* TOP GREETING & STREAK HEADER WITH HAMBURGER MENU */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
-          
-          <button 
-            onClick={() => setIsSidebarOpen(true)} 
-            style={{ 
-              background: "rgba(255, 255, 255, 0.06)", 
-              border: "1px solid rgba(255, 255, 255, 0.12)", 
-              cursor: "pointer", 
-              display: "flex", 
-              alignItems: "center", 
-              justifyContent: "center", 
-              width: "40px", 
-              height: "40px", 
-              borderRadius: "12px", 
+
+          <button
+            onClick={() => setIsSidebarOpen(true)}
+            style={{
+              background: "rgba(255, 255, 255, 0.06)",
+              border: "1px solid rgba(255, 255, 255, 0.12)",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "40px",
+              height: "40px",
+              borderRadius: "12px",
               color: "#ffffff",
               flexShrink: 0
             }}
             aria-label="Open Menu"
           >
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
-              <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/>
+              <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
             </svg>
           </button>
 
@@ -106,7 +128,7 @@ export default function DashboardPage() {
         </div>
 
         {/* 3D ROTATING CAROUSEL MIDDLE SECTION (Manual Drag & Auto-run, Clickable Links) */}
-        <div 
+        <div
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
@@ -144,13 +166,13 @@ export default function DashboardPage() {
         {/* HERO CARD - VISION FOOD SCANNER (Moved Down) */}
         <div className="hero-glow-card" style={{ width: "100%", marginBottom: "26px", borderRadius: "24px", padding: "1px", background: "linear-gradient(163deg, #00ff75 0%, #3700ff 50%, #38bdf8 100%)" }}>
           <div style={{ background: "#10141d", borderRadius: "23px", padding: "24px", position: "relative", overflow: "hidden" }}>
-            
+
             <div style={{ position: "absolute", top: "-50px", right: "-50px", width: "150px", height: "150px", background: "rgba(0,255,117,0.08)", borderRadius: "50%", filter: "blur(40px)", pointerEvents: "none" }}></div>
 
             <div style={{ display: "inline-block", background: "rgba(0, 255, 117, 0.12)", color: "#00ff75", padding: "4px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: 800, letterSpacing: "0.5px", marginBottom: "10px" }}>
               ✨ AI VISION ENGINE ACTIVE
             </div>
-            
+
             <h2 style={{ fontSize: "21px", fontWeight: 900, margin: "0 0 8px 0", color: "#fff", letterSpacing: "-0.3px" }}>Snap Your Meal & Track Macros</h2>
             <p style={{ fontSize: "13.5px", color: "#94a3b8", margin: "0 0 18px 0", lineHeight: "1.5" }}>
               Instant AI food breakdown, accurate calorie count, and heart-health insights straight from your camera.

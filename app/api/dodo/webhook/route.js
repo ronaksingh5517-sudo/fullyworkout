@@ -307,9 +307,36 @@ export async function POST(req) {
       event.type === "subscription.failed" ||
       event.type === "subscription.on_hold"
     ) {
-      console.log(
-        `⚠️ Subscription status: ${event.type}`
-      );
+      const data = event.data || {};
+      const metadata = data.metadata || {};
+
+      const email = (
+        metadata.user_email ||
+        data.customer?.email ||
+        data.customer_email ||
+        ""
+      ).trim().toLowerCase();
+
+      if (email) {
+        const client = await clientPromise;
+        const db = client.db("aurafit");
+
+        await db.collection("users").updateOne(
+          { email },
+          {
+            $set: {
+              isPro: false,
+              subscriptionStatus:
+                event.type === "subscription.failed"
+                  ? "failed"
+                  : "on_hold",
+              updatedAt: new Date(),
+            },
+          }
+        );
+      }
+
+      console.log(`⚠️ Subscription status: ${event.type}`);
     }
 
     return NextResponse.json({
